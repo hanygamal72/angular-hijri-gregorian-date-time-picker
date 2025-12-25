@@ -54,6 +54,10 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
   @Input() maxDate?: Date | string; // Maximum allowed date (Gregorian Date or DD/MM/YYYY string)
   @Input() initialDate?: Date | string; // Initial date to navigate to when picker opens
   
+  // Range selection initial dates
+  @Input() initialRangeStart?: Date | string; // Initial start date for range selection
+  @Input() initialRangeEnd?: Date | string; // Initial end date for range selection
+  
   // BACKWARD COMPATIBILITY: Default to false (24-hour format)
   // When true, displays 12-hour format with AM/PM toggle
   @Input() useMeridian: boolean = false; // Enable 12-hour format with AM/PM
@@ -315,12 +319,159 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
     }
 
     this.generatetMonthData(dateToNavigate);
+    
+    // Highlight initialDate or initialRange if provided
+    if (this.selectionMode === 'range' && (this.initialRangeStart || this.initialRangeEnd)) {
+      this.highlightInitialRange();
+    } else if (this.initialDate) {
+      this.highlightInitialDate();
+    }
   }
 
   /// Generate month days from JSON
   generatetMonthData(date: string) {
     const days = this._dateUtilsService.getMonthData(date, this.mode);
     this.weeks = this.generateWeeksArray(days);
+  }
+
+  /// Highlight initialDate on the calendar
+  private highlightInitialDate() {
+    if (!this.initialDate) {
+      return;
+    }
+
+    const normalizedInitialDate =
+      this._dateUtilsService.normalizeDateToString(this.initialDate);
+
+    if (!normalizedInitialDate) {
+      return;
+    }
+
+    // Find the day in the weeks array that matches initialDate
+    for (const week of this.weeks) {
+      for (const day of week) {
+        if (day && day.gD === normalizedInitialDate) {
+          // Don't select if date is disabled
+          if (!this.isDateDisabled(day)) {
+            // Mark as selected without triggering events
+            day.selected = true;
+            
+            // Set as selectedDay based on selection mode
+            if (this.selectionMode === 'range') {
+              this.rangeStart = day;
+            } else if (this.multiple) {
+              this.multipleSelectedDates = [day];
+            } else {
+              this.selectedDay = day;
+            }
+            
+            // Initialize time if enableTime is active
+            if (this.enableTime && !this.timeInitialized) {
+              this.initializeTime();
+            }
+            
+            // Attach time to the day if it's a Date object with time
+            if (this.enableTime && this.initialDate instanceof Date) {
+              day.time = {
+                hour: this.initialDate.getHours(),
+                minute: this.initialDate.getMinutes()
+              };
+            }
+          }
+          return;
+        }
+      }
+    }
+  }
+
+  /// Highlight initial range (start and end dates) on the calendar
+  private highlightInitialRange() {
+    if (!this.initialRangeStart && !this.initialRangeEnd) {
+      return;
+    }
+
+    const normalizedStartDate = this.initialRangeStart
+      ? this._dateUtilsService.normalizeDateToString(this.initialRangeStart)
+      : null;
+    const normalizedEndDate = this.initialRangeEnd
+      ? this._dateUtilsService.normalizeDateToString(this.initialRangeEnd)
+      : null;
+
+    let startDay: DayInfo | null = null;
+    let endDay: DayInfo | null = null;
+
+    // Find both start and end dates in the weeks array
+    for (const week of this.weeks) {
+      for (const day of week) {
+        if (day && normalizedStartDate && day.gD === normalizedStartDate) {
+          if (!this.isDateDisabled(day)) {
+            startDay = day;
+          }
+        }
+        if (day && normalizedEndDate && day.gD === normalizedEndDate) {
+          if (!this.isDateDisabled(day)) {
+            endDay = day;
+          }
+        }
+      }
+    }
+
+    // Set range start
+    if (startDay) {
+      startDay.selected = true;
+      this.rangeStart = startDay;
+      this.selectedDay = startDay;
+      
+      // Initialize and attach time to start date
+      if (this.enableTime) {
+        if (!this.timeInitialized) {
+          this.initializeTime();
+        }
+        if (this.initialRangeStart instanceof Date) {
+          startDay.time = {
+            hour: this.initialRangeStart.getHours(),
+            minute: this.initialRangeStart.getMinutes()
+          };
+        } else {
+          startDay.time = { ...this.selectedTime };
+        }
+      }
+    }
+
+    // Set range end if provided
+    if (endDay && startDay) {
+      // Swap if end is before start
+      const startDate = this.parseDateString(startDay.gD);
+      const endDate = this.parseDateString(endDay.gD);
+      
+      if (endDate && startDate && endDate < startDate) {
+        // Swap
+        this.rangeEnd = startDay;
+        this.rangeStart = endDay;
+        endDay.selected = true;
+      } else {
+        this.rangeEnd = endDay;
+      }
+      
+      // Attach time to end date (inherit from start)
+      if (this.enableTime) {
+        const timeToUse = this.rangeStart.time || { ...this.selectedTime };
+        if (this.initialRangeEnd instanceof Date) {
+          this.rangeEnd.time = {
+            hour: this.initialRangeEnd.getHours(),
+            minute: this.initialRangeEnd.getMinutes()
+          };
+        } else {
+          this.rangeEnd.time = { ...timeToUse };
+        }
+        // Ensure start also has time
+        this.rangeStart.time = { ...timeToUse };
+      }
+      
+      // Highlight the range
+      this.highlightRange();
+      this.selectedDay = this.rangeEnd;
+    }
   }
 
   /// Generate month weeks

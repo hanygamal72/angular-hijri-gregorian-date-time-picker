@@ -1,4 +1,4 @@
-<div class="calendar-container">
+<div class="calendar-container" [dir]="dir" [attr.lang]="locale">
   <div
     class="toggle-section"
     [dir]="dir"
@@ -215,11 +215,7 @@
 
   <!-- Time Picker Section -->
   <!-- BACKWARD COMPATIBILITY: This section only renders when enableTime=true -->
-  <div
-    class="time-picker-section"
-    *ngIf="enableTime"
-    [dir]="dir"
-  >
+  <div class="time-picker-section" *ngIf="enableTime" [dir]="'ltr'">
     <div class="time-picker-wrapper">
       <!-- Hour Input with Arrows -->
       <div class="time-input-container">
@@ -230,15 +226,17 @@
           tabindex="-1"
           aria-label="Increment hour"
         >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-            <path d="M6 2l4 6H2z" />
-          </svg>
+          <i class="ri-arrow-drop-up-line"></i>
         </button>
         <input
           type="number"
           class="time-field"
           [value]="getDisplayHour().toString().padStart(2, '0')"
-          (input)="useMeridian ? onHour12InputChange($event) : onHourInputChange($event)"
+          (input)="
+            useMeridian
+              ? onHour12InputChange($event)
+              : onHourInputChange($event)
+          "
           (keydown)="onTimeKeydown($event, 'hour')"
           [min]="useMeridian ? 1 : 0"
           [max]="useMeridian ? 12 : 23"
@@ -251,9 +249,7 @@
           tabindex="-1"
           aria-label="Decrement hour"
         >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-            <path d="M6 10l-4-6h8z" />
-          </svg>
+          <i class="ri-arrow-drop-down-line"></i>
         </button>
       </div>
 
@@ -269,9 +265,7 @@
           tabindex="-1"
           aria-label="Increment minute"
         >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-            <path d="M6 2l4 6H2z" />
-          </svg>
+          <i class="ri-arrow-drop-up-line"></i>
         </button>
         <input
           type="number"
@@ -290,9 +284,7 @@
           tabindex="-1"
           aria-label="Decrement minute"
         >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-            <path d="M6 10l-4-6h8z" />
-          </svg>
+          <i class="ri-arrow-drop-down-line"></i>
         </button>
       </div>
 

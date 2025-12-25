@@ -1,8 +1,8 @@
 # Angular Hijri Gregorian Calendar(Datepicker)
 
-[![Build](https://img.shields.io/badge/build-passing-green.svg)](https://www.npmjs.com/package/angular-hijri-gregorian-datepicker)
-[![Dependencies](https://img.shields.io/badge/dependencies-uptodate-green.svg)](https://www.npmjs.com/package/angular-hijri-gregorian-datepicker)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](https://www.npmjs.com/package/angular-hijri-gregorian-datepicker)
+[![Build](https://img.shields.io/badge/build-passing-green.svg)](https://www.npmjs.com/package/angular-hijri-gregorian-date-time-picker)
+[![Dependencies](https://img.shields.io/badge/dependencies-uptodate-green.svg)](https://www.npmjs.com/package/angular-hijri-gregorian-date-time-picker)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](https://www.npmjs.com/package/angular-hijri-gregorian-date-time-picker)
 
 - Most accurate Hijri, Gregorian calendar(date-picker) on NPM with 100% accuracy percentage.
 - Robust and tested code angular hijri/gregorian calendar/date-picker component for Angular 10 - 16, 18+ projects.
@@ -19,8 +19,8 @@ Angular hijri gregorian with `Zero` dependents that supports conversion between 
 ## Preview
 
 <p>
-  <img src="https://github.com/hanafnafs/angular-hijri-gregorian-datepicker/blob/master/src/assets/imgs/themes_en.gif" width="40%"/>
-  <img src="https://github.com/hanafnafs/angular-hijri-gregorian-datepicker/blob/master/src/assets/imgs/themes_ar.gif" width="40%"/>
+  <img src="https://github.com/hanygamal72/angular-hijri-gregorian-date-time-picker/blob/master/src/assets/imgs/themes_en.gif" width="40%"/>
+  <img src="https://github.com/hanygamal72/angular-hijri-gregorian-date-time-picker/blob/master/src/assets/imgs/themes_ar.gif" width="40%"/>
 </p>
 
 ## Background
@@ -30,14 +30,6 @@ The Umm Al-Qura calendar is the lunar Hijri calendar officially adopted by Saudi
 The calendar is widely used in Saudi Arabia, especially by the public sector. Official documents, political letters, health care records, and education certificates, are just examples of many other documents that are dated by the Hijri calendar.
 
 However, the Gregorian calendar is the calendar used in most of the world, and it has been implemented as the default calendar in nearly every computer and database.
-
-## Examples/Demo
-
-Online demo can be found:
-
-[Stackblitz](https://stackblitz.com/~/github.com/hanafnafs/angular-hijri-gregorian-datepicker/)
-
-[Github Pages](https://hanafnafs.github.io/angular-hijri-gregorian-datepicker/)
 
 <b> Star it to inspire us to build the best component! </b>
 
@@ -72,7 +64,7 @@ Other browsers: <b>Edge v.41 - 44</b> (without code hidden feature)
 
 ## Installation
 
-    $ npm install angular-hijri-gregorian-datepicker
+    $ npm install angular-hijri-gregorian-date-time-picker
 
 <br />
 
@@ -81,7 +73,7 @@ Other browsers: <b>Edge v.41 - 44</b> (without code hidden feature)
 Import `HijriGregorianDatepickerModule` in your app module or page module:
 
 ```ts
-import { HijriGregorianDatepickerModule } from 'angular-hijri-gregorian-datepicker';
+import { HijriGregorianDatepickerModule } from 'angular-hijri-gregorian-date-time-picker';
 
 @NgModule({
   imports: [

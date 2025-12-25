@@ -1,5 +1,169 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* ============================================
+   Bilingual Typography System
+   ============================================
+   English: Poppins (Latin script)
+   Arabic: Zain (Arabic script)
+============================================ */
+
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Zain:wght@200;300;400;700;800;900&display=swap");
+
+/* Import Remix Icon */
+@import url("https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css");
+
 @font-face {
-    font-family: 'Default-Regular';
-    src: url("assets/fonts/Default-Regular.ttf");
+  font-family: "Default-Regular";
+  src: url("assets/fonts/Default-Regular.ttf");
+}
+
+/* ============================================
+   Base Typography Settings
+============================================ */
+
+* {
+  /* Default to Poppins for English/LTR */
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Arabic Typography (RTL or lang="ar") */
+[dir="rtl"],
+[lang="ar"],
+.arabic-text,
+div,
+span,
+select,
+p,
+option {
+  font-family: "Zain", "Arabic Typesetting", "Tahoma", sans-serif !important;
+
+  /* Optimal Arabic text rendering */
+  letter-spacing: 0;
+  word-spacing: 0.05em;
+}
+
+/* ============================================
+   Language-Aware Font Weights
+============================================ */
+
+/* English font weights (Poppins) */
+:not([dir="rtl"]):not([lang="ar"]) {
+  .font-light {
+    font-weight: 300;
+  }
+  .font-regular {
+    font-weight: 400;
+  }
+  .font-medium {
+    font-weight: 500;
+  }
+  .font-semibold {
+    font-weight: 600;
+  }
+  .font-bold {
+    font-weight: 700;
+  }
+}
+
+/* Arabic font weights (Zain - adjusted for better readability) */
+[dir="rtl"],
+[lang="ar"] {
+  .font-light {
+    font-weight: 200;
+  }
+  .font-regular {
+    font-weight: 300;
+  }
+  .font-medium {
+    font-weight: 400;
+  }
+  .font-semibold {
+    font-weight: 700;
+  }
+  .font-bold {
+    font-weight: 800;
+  }
+
+  /* Arabic-specific adjustments */
+  line-height: 1.8; /* Better line spacing for Arabic */
+}
+
+/* ============================================
+   Readability & Spacing Best Practices
+============================================ */
+
+body {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 0.75em;
+}
+
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[lang="ar"] h1,
+[lang="ar"] h2,
+[lang="ar"] h3 {
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/* Paragraphs */
+p {
+  margin-bottom: 1em;
+  font-weight: 400;
+}
+
+[dir="rtl"] p,
+[lang="ar"] p {
+  font-weight: 300;
+  line-height: 1.8;
+}
+
+/* Buttons & Interactive Elements */
+button,
+.btn {
+  font-weight: 500;
+  letter-spacing: 0.025em;
+}
+
+[dir="rtl"] button,
+[dir="rtl"] .btn,
+[lang="ar"] button,
+[lang="ar"] .btn {
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* Input Fields */
+input,
+textarea,
+select {
+  font-weight: 400;
+}
+
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select,
+[lang="ar"] input,
+[lang="ar"] textarea,
+[lang="ar"] select {
+  font-weight: 300;
 }

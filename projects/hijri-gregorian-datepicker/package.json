@@ -1,6 +1,6 @@
 {
-  "name": "angular-hijri-gregorian-datepicker",
-  "version": "2.0.5",
+  "name": "angular-hijri-gregorian-date-time-picker",
+  "version": "0.0.0",
   "license": "MIT",
   "peerDependencies": {
     "@angular/common": "^15.2.9",
@@ -11,16 +11,16 @@
     "tslib": "^2.1.0"
   },
   "author": {
-    "name": "Hanafnafs",
-    "email": "hanafnafs@gmail.com",
-    "url": "https://github.com/hanafnafs"
+    "name": "Hany Gamal",
+    "email": "hany.gamal290@gmail.com",
+    "url": "https://github.com/hanygamal72"
   },
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hanafnafs/angular-hijri-gregorian-datepicker"
+    "url": "https://github.com/hanygamal72/angular-hijri-gregorian-date-time-picker"
   },
   "keywords": [
     "ng",
@@ -64,6 +64,6 @@
     "date conversion calendar",
     "ngx hijri datepicker",
     "ngx calendar converter",
-    "hanafnafs"
+    "hany gamal"
   ]
 }

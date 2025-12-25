@@ -23,20 +23,68 @@ export class AppComponent {
     fontFamily: 'Default-Regular',
     borderRadius: '8px',
   };
-  mode = 'ummAlQura';
-  
-  // New properties for testing extended features
+  mode = 'greg';
+
+  // ==================================================
+  // EXAMPLES: Initial Date Setup
+  // ==================================================
+
   enableTime = true;
-  minDate = new Date(2025, 0, 1);    // Jan 1, 2025
-  maxDate = new Date(2025, 11, 31);   // Dec 31, 2025
-  initialDate = new Date(2025, 5, 15); // Jun 15, 2025
-  
+  minDate = new Date(2025, 0, 1); // Jan 1, 2025
+  maxDate = new Date(2025, 11, 31); // Dec 31, 2025
+
+  // FOR SINGLE SELECTION MODE:
+  // Use initialDate to highlight one date
+  initialDate = new Date(); // Today
+
+  // FOR RANGE SELECTION MODE:
+  // Use initialRangeStart and initialRangeEnd to highlight a range
+  initialRangeStart = new Date(2025, 11, 10, 9, 0); // Dec 10, 2025 at 9:00 AM
+  initialRangeEnd = new Date(2025, 11, 20, 17, 30); // Dec 20, 2025 at 5:30 PM
+
+  // ==================================================
+
   constructor() {}
 
   onSubmit(ev: any) {
     console.log('📅 On Submit:', ev);
+
+    // Range selection output
+    if (ev.start && ev.end) {
+      console.log('🎯 RANGE SELECTED:');
+      console.log(
+        '  📍 Start:',
+        ev.start.gD,
+        '(Gregorian)',
+        ev.start.uD,
+        '(Hijri)'
+      );
+      if (ev.start.time) {
+        console.log(
+          '  ⏰ Start Time:',
+          `${ev.start.time.hour}:${ev.start.time.minute
+            .toString()
+            .padStart(2, '0')}`
+        );
+      }
+      console.log('  📍 End:', ev.end.gD, '(Gregorian)', ev.end.uD, '(Hijri)');
+      if (ev.end.time) {
+        console.log(
+          '  ⏰ End Time:',
+          `${ev.end.time.hour}:${ev.end.time.minute
+            .toString()
+            .padStart(2, '0')}`
+        );
+      }
+      return;
+    }
+
+    // Single date output
     if (ev.time) {
-      console.log('⏰ Time:', `${ev.time.hour}:${ev.time.minute.toString().padStart(2, '0')}`);
+      console.log(
+        '⏰ Time:',
+        `${ev.time.hour}:${ev.time.minute.toString().padStart(2, '0')}`
+      );
     }
     if (ev.gD) {
       console.log('📆 Gregorian:', ev.gD);
@@ -45,7 +93,26 @@ export class AppComponent {
   }
 
   onChange(eventData: any) {
-    console.log('On Change ', eventData);
+    console.log('🔄 On Day Select:', eventData);
+
+    // Range selection tracking
+    if (eventData.start) {
+      if (eventData.end) {
+        console.log(
+          '✅ Range Complete:',
+          eventData.start.gD,
+          '→',
+          eventData.end.gD
+        );
+      } else {
+        console.log(
+          '⏳ Range Started:',
+          eventData.start.gD,
+          '(select end date)'
+        );
+      }
+    }
+
     if (!Array.isArray(eventData)) {
       this.selectedDate = eventData;
     }
@@ -62,7 +129,7 @@ export class AppComponent {
   toggleMode() {
     this.mode = this.mode == 'greg' ? 'ummAlQura' : 'greg';
   }
-  
+
   toggleTimePicker() {
     this.enableTime = !this.enableTime;
   }
