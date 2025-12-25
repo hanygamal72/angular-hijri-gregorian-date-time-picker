@@ -385,4 +385,92 @@ export class DateUtilitiesService {
       return `${toEnglish(day)}/${toEnglish(month)}/${toEnglish(year)}`;
     }
   }
+
+  /**
+   * Normalize input date to DD/MM/YYYY string format (Gregorian)
+   * Accepts Date object or DD/MM/YYYY string
+   */
+  normalizeDateToString(date: Date | string | undefined): string | null {
+    if (!date) return null;
+
+    if (date instanceof Date) {
+      return this.formatDate(date);
+    }
+
+    // Already a string - validate format
+    const parsed = this.parseDate(date);
+    return parsed ? this.formatDate(parsed) : null;
+  }
+
+  /**
+   * Compare two dates (Gregorian format DD/MM/YYYY)
+   * Returns: -1 if date1 < date2, 0 if equal, 1 if date1 > date2
+   */
+  compareDates(date1Str: string, date2Str: string): number {
+    const d1 = this.parseDate(date1Str);
+    const d2 = this.parseDate(date2Str);
+
+    if (!d1 || !d2) return 0;
+
+    if (d1 < d2) return -1;
+    if (d1 > d2) return 1;
+    return 0;
+  }
+
+  /**
+   * Compare two Hijri dates (UM format DD/MM/YYYY)
+   * Converts to Gregorian for comparison
+   */
+  compareHijriDates(hijri1: string, hijri2: string): number {
+    const day1 = this.convertDate(hijri1, false);
+    const day2 = this.convertDate(hijri2, false);
+
+    if (!day1?.gD || !day2?.gD) return 0;
+
+    return this.compareDates(day1.gD, day2.gD);
+  }
+
+  /**
+   * Check if a date is within the specified range (inclusive)
+   * All dates in Gregorian DD/MM/YYYY format
+   */
+  isDateInRange(
+    dateStr: string,
+    minDateStr: string | null,
+    maxDateStr: string | null
+  ): boolean {
+    if (!dateStr) return false;
+
+    // If no constraints, date is valid
+    if (!minDateStr && !maxDateStr) return true;
+
+    // Check minimum constraint
+    if (minDateStr && this.compareDates(dateStr, minDateStr) < 0) {
+      return false;
+    }
+
+    // Check maximum constraint
+    if (maxDateStr && this.compareDates(dateStr, maxDateStr) > 0) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Check if a Hijri date is within the specified range
+   * Converts to Gregorian for comparison
+   */
+  isHijriDateInRange(
+    hijriDateStr: string,
+    minDateStr: string | null,
+    maxDateStr: string | null
+  ): boolean {
+    if (!hijriDateStr) return false;
+
+    const dayInfo = this.convertDate(hijriDateStr, false);
+    if (!dayInfo?.gD) return false;
+
+    return this.isDateInRange(dayInfo.gD, minDateStr, maxDateStr);
+  }
 }

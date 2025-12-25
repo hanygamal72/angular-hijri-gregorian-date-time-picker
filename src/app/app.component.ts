@@ -23,11 +23,25 @@ export class AppComponent {
     fontFamily: 'Default-Regular',
     borderRadius: '8px',
   };
-  mode = 'greg';
+  mode = 'ummAlQura';
+  
+  // New properties for testing extended features
+  enableTime = true;
+  minDate = new Date(2025, 0, 1);    // Jan 1, 2025
+  maxDate = new Date(2025, 11, 31);   // Dec 31, 2025
+  initialDate = new Date(2025, 5, 15); // Jun 15, 2025
+  
   constructor() {}
 
   onSubmit(ev: any) {
-    console.log('On Submit ', ev);
+    console.log('📅 On Submit:', ev);
+    if (ev.time) {
+      console.log('⏰ Time:', `${ev.time.hour}:${ev.time.minute.toString().padStart(2, '0')}`);
+    }
+    if (ev.gD) {
+      console.log('📆 Gregorian:', ev.gD);
+      console.log('🌙 Hijri:', ev.uD);
+    }
   }
 
   onChange(eventData: any) {
@@ -47,5 +61,9 @@ export class AppComponent {
 
   toggleMode() {
     this.mode = this.mode == 'greg' ? 'ummAlQura' : 'greg';
+  }
+  
+  toggleTimePicker() {
+    this.enableTime = !this.enableTime;
   }
 }

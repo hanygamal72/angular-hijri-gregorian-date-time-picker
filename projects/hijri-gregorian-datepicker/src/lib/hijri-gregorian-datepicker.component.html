@@ -1,70 +1,130 @@
 <div class="calendar-container">
-  <div class="toggle-section" [dir]="dir" *ngIf="canChangeMode" [ngStyle]="{ color: styles.primaryColor }">
+  <div
+    class="toggle-section"
+    [dir]="dir"
+    *ngIf="canChangeMode"
+    [ngStyle]="{ color: styles.primaryColor }"
+  >
     <span> {{ ummAlQuraDateText }} </span>
     <label class="switch">
-      <input type="checkbox" [disabled]="!canChangeMode" [checked]="mode === 'ummAlQura'"
-        (change)="changeCalendarMode()" #calendarCheckbox />
-      <span class="slider"
-        [ngStyle]="calendarCheckbox.checked ? { 'background-color': styles.primaryColor } : {'background-color': styles.backgroundColor}"></span>
+      <input
+        type="checkbox"
+        [disabled]="!canChangeMode"
+        [checked]="mode === 'ummAlQura'"
+        (change)="changeCalendarMode()"
+        #calendarCheckbox
+      />
+      <span
+        class="slider"
+        [ngStyle]="
+          calendarCheckbox.checked
+            ? { 'background-color': styles.primaryColor }
+            : { 'background-color': styles.backgroundColor }
+        "
+      ></span>
     </label>
   </div>
 
-  <div class="todays-date-section" *ngIf="todaysDateSection" [ngStyle]="{
+  <div
+    class="todays-date-section"
+    *ngIf="todaysDateSection"
+    [ngStyle]="{
       'background-color': styles.backgroundColor,
       color: styles.primaryColor,
       'border-radius': styles.borderRadius
-    }">
-    <div class="text-info" [ngClass]="{
+    }"
+  >
+    <div
+      class="text-info"
+      [ngClass]="{
         order: dir == 'rtl'
-      }">
+      }"
+    >
       <p>{{ todaysDateText }}</p>
     </div>
 
-    <div class="data" [dir]="dir" [ngStyle]="{
+    <div
+      class="data"
+      [dir]="dir"
+      [ngStyle]="{
         'background-color': styles.todaysDateBgColor,
         color: styles.todaysDateTextColor
-      }">
+      }"
+    >
       <p *ngIf="mode == 'ummAlQura'">
         <!-- {{todaysDate.ummAlQura}} -->
-        {{ locale == 'ar' ? _dateUtilsService.convertDateNumerals(todaysDate.ummAlQura,'ar') : todaysDate.ummAlQura }}
+        {{
+          locale == "ar"
+            ? _dateUtilsService.convertDateNumerals(todaysDate.ummAlQura, "ar")
+            : todaysDate.ummAlQura
+        }}
       </p>
       <p *ngIf="mode == 'greg'">
-        {{ locale == 'ar' ? _dateUtilsService.convertDateNumerals(todaysDate.gregorian,'ar') : todaysDate.gregorian }}
+        {{
+          locale == "ar"
+            ? _dateUtilsService.convertDateNumerals(todaysDate.gregorian, "ar")
+            : todaysDate.gregorian
+        }}
       </p>
     </div>
   </div>
 
   <div class="period-container">
     <form [formGroup]="periodForm" class="period-form">
-      <div class="select-item" [ngClass]="{
+      <div
+        class="select-item"
+        [ngClass]="{
           order: dir == 'ltr'
-        }" [ngStyle]="{ 'background-color': styles.backgroundColor, 'border-radius': styles.borderRadius }">
+        }"
+        [ngStyle]="{
+          'background-color': styles.backgroundColor,
+          'border-radius': styles.borderRadius
+        }"
+      >
         <label *ngIf="!periodForm.controls['year'].value">{{
           yearSelectLabel
         }}</label>
 
-        <select formControlName="year" class="{{ 'icon-' + dir }}" placeholder="السنة" (change)="onPeriodChange('year')"
-          [dir]="dir" [ngStyle]="{
+        <select
+          formControlName="year"
+          class="{{ 'icon-' + dir }}"
+          placeholder="السنة"
+          (change)="onPeriodChange('year')"
+          [dir]="dir"
+          [ngStyle]="{
             color: styles.primaryColor,
             'font-family': styles.fontFamily
-          }">
+          }"
+        >
           <option *ngFor="let year of years" [ngValue]="year">
             {{ locale == "ar" ? _dateUtilsService.parseEnglish(year) : year }}
           </option>
         </select>
       </div>
 
-      <div class="select-item" [ngClass]="{
+      <div
+        class="select-item"
+        [ngClass]="{
           order: dir == 'rtl'
-        }" [ngStyle]="{ 'background-color': styles.backgroundColor, 'border-radius': styles.borderRadius }">
+        }"
+        [ngStyle]="{
+          'background-color': styles.backgroundColor,
+          'border-radius': styles.borderRadius
+        }"
+      >
         <label *ngIf="!periodForm.controls['month'].value">{{
           monthSelectLabel
         }}</label>
-        <select class="{{ 'icon-' + dir }}" formControlName="month" (change)="onPeriodChange('month')" [dir]="dir"
+        <select
+          class="{{ 'icon-' + dir }}"
+          formControlName="month"
+          (change)="onPeriodChange('month')"
+          [dir]="dir"
           [ngStyle]="{
             color: styles.primaryColor,
             'font-family': styles.fontFamily
-          }">
+          }"
+        >
           <option *ngFor="let month of months" [ngValue]="month.value">
             {{ locale == "ar" ? month?.labelAr : month?.labelEn }}
           </option>
@@ -73,25 +133,41 @@
     </form>
   </div>
 
-  <div class="calendar-layout" [ngStyle]="{ 'background-color': styles.backgroundColor, 'border-radius': styles.borderRadius }">
+  <div
+    class="calendar-layout"
+    [ngStyle]="{
+      'background-color': styles.backgroundColor,
+      'border-radius': styles.borderRadius
+    }"
+  >
     <div class="week-days">
-      <div class="week-day" [ngStyle]="{ color: styles.dayNameColor }"
-        *ngFor="let date of locale == 'ar' ? weekdaysAr : weekdaysEn">
+      <div
+        class="week-day"
+        [ngStyle]="{ color: styles.dayNameColor }"
+        *ngFor="let date of locale == 'ar' ? weekdaysAr : weekdaysEn"
+      >
         {{ date }}
       </div>
     </div>
 
     <div [dir]="dir">
       <div class="week" *ngFor="let week of weeks">
-        <div class="day" *ngFor="let day of week" (click)="disableDayPicker == false ? onDayClicked(day) : ''"
+        <div
+          class="day"
+          *ngFor="let day of week"
+          (click)="disableDayPicker == false ? onDayClicked(day) : ''"
           [ngStyle]="{
             'background-color': styles.backgroundColor,
             color: styles.dayColor
-          }">
-          <div id="greg-day" [ngClass]="{
+          }"
+        >
+          <div
+            id="greg-day"
+            [ngClass]="{
               'todays-date': checkTodaysDate(day),
               'selected-date': day?.selected == true
-            }" [ngStyle]="{
+            }"
+            [ngStyle]="{
               border:
                 markToday && checkTodaysDate(day)
                   ? '1px solid ' + styles.secondaryColor
@@ -102,18 +178,26 @@
                 (day?.selected == true ? styles.todaysDateTextColor : '') ||
                 (checkFutureValidation(day) && futureValidation
                   ? styles.disabledDayColor
-                  : '')
-            }">
-            <span *ngIf="mode == 'greg'">{{            
-             locale == 'ar' 
-             ? _dateUtilsService.parseEnglish(day?.gD?.split("/")[0] | number) : 
-             day?.gD?.split("/")[0] | number
+                  : '') ||
+                (isDateDisabled(day) ? styles.disabledDayColor : ''),
+              opacity: isDateDisabled(day) ? '0.4' : '1',
+              cursor: isDateDisabled(day) ? 'not-allowed' : 'pointer'
+            }"
+          >
+            <span *ngIf="mode == 'greg'">{{
+              locale == "ar"
+                ? _dateUtilsService.parseEnglish(
+                    day?.gD?.split("/")[0] | number
+                  )
+                : (day?.gD?.split("/")[0] | number)
             }}</span>
 
             <span id="ummAlQura-day" *ngIf="mode == 'ummAlQura'">{{
-              locale == 'ar' 
-                ? _dateUtilsService.parseEnglish(day?.uD?.split("/")[0] | number)
-                : day?.uD?.split("/")[0] | number
+              locale == "ar"
+                ? _dateUtilsService.parseEnglish(
+                    day?.uD?.split("/")[0] | number
+                  )
+                : (day?.uD?.split("/")[0] | number)
             }}</span>
           </div>
         </div>
@@ -128,17 +212,133 @@
       {{ futureValidationMessageEn }}
     </span>
   </div>
+
+  <!-- Time Picker Section -->
+  <!-- BACKWARD COMPATIBILITY: This section only renders when enableTime=true -->
+  <div
+    class="time-picker-section"
+    *ngIf="enableTime"
+    [dir]="dir"
+  >
+    <div class="time-picker-wrapper">
+      <!-- Hour Input with Arrows -->
+      <div class="time-input-container">
+        <button
+          type="button"
+          class="time-arrow time-arrow-up"
+          (click)="useMeridian ? incrementHour12() : incrementHour()"
+          tabindex="-1"
+          aria-label="Increment hour"
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+            <path d="M6 2l4 6H2z" />
+          </svg>
+        </button>
+        <input
+          type="number"
+          class="time-field"
+          [value]="getDisplayHour().toString().padStart(2, '0')"
+          (input)="useMeridian ? onHour12InputChange($event) : onHourInputChange($event)"
+          (keydown)="onTimeKeydown($event, 'hour')"
+          [min]="useMeridian ? 1 : 0"
+          [max]="useMeridian ? 12 : 23"
+          aria-label="Hour"
+        />
+        <button
+          type="button"
+          class="time-arrow time-arrow-down"
+          (click)="useMeridian ? decrementHour12() : decrementHour()"
+          tabindex="-1"
+          aria-label="Decrement hour"
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+            <path d="M6 10l-4-6h8z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Colon Separator -->
+      <span class="time-colon">:</span>
+
+      <!-- Minute Input with Arrows -->
+      <div class="time-input-container">
+        <button
+          type="button"
+          class="time-arrow time-arrow-up"
+          (click)="incrementMinute()"
+          tabindex="-1"
+          aria-label="Increment minute"
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+            <path d="M6 2l4 6H2z" />
+          </svg>
+        </button>
+        <input
+          type="number"
+          class="time-field"
+          [value]="selectedTime.minute.toString().padStart(2, '0')"
+          (input)="onMinuteInputChange($event)"
+          (keydown)="onTimeKeydown($event, 'minute')"
+          min="0"
+          max="59"
+          aria-label="Minute"
+        />
+        <button
+          type="button"
+          class="time-arrow time-arrow-down"
+          (click)="decrementMinute()"
+          tabindex="-1"
+          aria-label="Decrement minute"
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+            <path d="M6 10l-4-6h8z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- AM/PM Button Group (only when useMeridian=true) -->
+      <!-- BACKWARD COMPATIBILITY: This only renders when useMeridian=true -->
+      <div class="meridian-toggle-group" *ngIf="useMeridian">
+        <button
+          type="button"
+          class="meridian-btn"
+          [class.active]="meridian === 'AM'"
+          (click)="meridian !== 'AM' && toggleMeridian()"
+          aria-label="Select AM"
+        >
+          AM
+        </button>
+        <button
+          type="button"
+          class="meridian-btn"
+          [class.active]="meridian === 'PM'"
+          (click)="meridian !== 'PM' && toggleMeridian()"
+          aria-label="Select PM"
+        >
+          PM
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div>
-    <button type="button" class="confirm-btn" [disabled]="
+    <button
+      type="button"
+      class="confirm-btn"
+      [disabled]="
         isRequired &&
         ((!selectedDay && !multiple) ||
           (!multipleSelectedDates.length && multiple))
-      " (click)="onConfirmClicked()" *ngIf="showConfirmButton" [ngStyle]="{
+      "
+      (click)="onConfirmClicked()"
+      *ngIf="showConfirmButton"
+      [ngStyle]="{
         'background-color': styles.secondaryColor,
         color: styles.confirmBtnTextColor,
         'font-family': styles.fontFamily,
         'border-radius': styles.borderRadius
-      }">
+      }"
+    >
       {{ submitTextButton }}
     </button>
   </div>

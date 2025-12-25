@@ -208,4 +208,226 @@
     margin-top: 8px;
     font-size: 13px;
   }
+
+  // Time Picker Styles
+  // BACKWARD COMPATIBILITY: These styles only apply when enableTime=true
+  // ============================================
+  // Time Picker Styles - Horizontal Layout
+  // ============================================
+  .time-picker-section {
+    padding: 16px;
+    background: transparent;
+    border-radius: 0;
+
+    .time-picker-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      // Hour/Minute Input Container with Up/Down Arrows
+      .time-input-container {
+        position: relative;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+
+        .time-arrow {
+          width: 100%;
+          height: 20px;
+          border: 1px solid #ddd;
+          background: #ffffff;
+          color: #5b479c;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s ease;
+          padding: 0;
+          margin: 0;
+
+          svg {
+            pointer-events: none;
+            opacity: 0.6;
+            transition: opacity 0.2s ease;
+          }
+
+          &:hover {
+            // background: #f8f9fa;
+            // border-color: #5b479c;
+
+            svg {
+              opacity: 1;
+            }
+          }
+
+          &:active {
+            background: #e9ecef;
+          }
+
+          &:focus {
+            outline: none;
+            // border-color: #5b479c;
+            // box-shadow: 0 0 0 2px rgba(91, 71, 156, 0.1);
+          }
+
+          &.time-arrow-up {
+            border-radius: 4px 4px 0 0;
+            border-bottom: none;
+          }
+
+          &.time-arrow-down {
+            border-radius: 0 0 4px 4px;
+            border-top: none;
+          }
+        }
+
+        .time-field {
+          width: 50px;
+          height: 25px;
+          border: 1px solid #ddd;
+          border-top: none;
+          border-bottom: none;
+          background: #ffffff;
+          font-size: 20px;
+          font-weight: 600;
+          color: #333;
+          text-align: center;
+          padding: 0;
+          margin: 0;
+          transition: all 0.2s ease;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+            sans-serif;
+
+          // Remove spinner buttons
+          -moz-appearance: textfield;
+          appearance: textfield;
+          &::-webkit-outer-spin-button,
+          &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            appearance: none;
+            margin: 0;
+          }
+
+          &:hover {
+            // background: #f8f9fa;
+            // border-color: #5b479c;
+          }
+
+          &:focus {
+            outline: none;
+            // background: #ffffff;
+            // border-color: #5b479c;
+            box-shadow: 0 0 0 2px rgba(91, 71, 156, 0.1);
+            z-index: 1;
+          }
+        }
+      }
+
+      // Colon Separator
+      .time-colon {
+        font-size: 24px;
+        font-weight: 600;
+        color: #5b479c;
+        padding: 0 4px;
+        user-select: none;
+        line-height: 1;
+      }
+
+      // AM/PM Button Group
+      .meridian-toggle-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        margin-left: 8px;
+
+        .meridian-btn {
+          width: 45px;
+          height: 25px;
+          border: 1px solid #ddd;
+          background: #ffffff;
+          color: #666;
+          font-size: 13px;
+          font-weight: 600;
+          text-align: center;
+          padding: 0;
+          cursor: pointer;
+          transition: all 0.2s ease;
+
+          &:first-child {
+            border-radius: 4px 4px 0 0;
+            border-bottom: none;
+          }
+
+          &:last-child {
+            border-radius: 0 0 4px 4px;
+          }
+
+          &:hover:not(.active) {
+            background: #f8f9fa;
+            border-color: #00ace4;
+            color: #00ace4;
+          }
+
+          &:active {
+            transform: scale(0.98);
+          }
+
+          &:focus {
+            outline: none;
+            border-color: #00ace4;
+            box-shadow: 0 0 0 2px rgba(0, 172, 228, 0.1);
+            z-index: 1;
+          }
+
+          &.active {
+            background: linear-gradient(135deg, #5b479c 0%, #7560b8 100%);
+            border-color: #5b479c;
+            color: #ffffff;
+            cursor: default;
+
+            &:hover {
+              background: linear-gradient(135deg, #00ace4 0%, #0099cc 100%);
+              border-color: #00ace4;
+            }
+          }
+        }
+      }
+    }
+
+    // Responsive Design
+    @media (max-width: 480px) {
+      padding: 12px;
+
+      .time-picker-wrapper {
+        gap: 6px;
+
+        .time-input-container {
+          .time-arrow {
+            height: 18px;
+          }
+
+          .time-field {
+            width: 50px;
+            height: 36px;
+            font-size: 20px;
+          }
+        }
+
+        .time-colon {
+          font-size: 24px;
+        }
+
+        .meridian-toggle-group {
+          margin-left: 6px;
+
+          .meridian-btn {
+            width: 45px;
+            height: 27px;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
 }
