@@ -15,6 +15,7 @@ import { DateUtilitiesService } from '../_services/date-utilities.service';
 import { TodayDate, DayInfo } from '../_interfaces/calendar-model';
 import * as themesConfig from '../themes/themes.json';
 @Component({
+  standalone: false,
   selector: 'hijri-gregorian-datepicker',
   templateUrl: './hijri-gregorian-datepicker.component.html',
   styleUrls: ['./hijri-gregorian-datepicker.component.scss'],

@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://www.npmjs.com/package/angular-hijri-gregorian-date-time-picker)
 
 - Most accurate Hijri, Gregorian calendar(date-picker) on NPM with 100% accuracy percentage.
-- Robust and tested code angular hijri/gregorian calendar/date-picker component for Angular 10 - 16, 18+ projects.
+- Robust and tested code angular hijri/gregorian calendar/date-picker component for Angular 10 - 20+ projects.
 - Ionic 3 - 4, 5, 6 + is supported, can be used in iOS and Android.
 - `Zero` dependents package.
 - 10 different `themes` and `layouts` already built in, you can also customize your own as well.

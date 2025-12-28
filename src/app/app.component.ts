@@ -3,6 +3,7 @@ import { DayInfo } from 'projects/hijri-gregorian-datepicker/src/_interfaces/cal
 import { stylesConfig } from 'projects/hijri-gregorian-datepicker/src/_interfaces/styles-config.model';
 
 @Component({
+  standalone: false,
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
