@@ -1,6 +1,7 @@
 {
   "name": "angular-hijri-gregorian-date-time-picker",
-  "version": "0.0.0",
+  "version": "1.5.0",
+  "description": "Angular Hijri Gregorian Date Time Picker with beautiful custom selects, time picker, range selection, and bilingual typography support",
   "license": "MIT",
   "peerDependencies": {
     "@angular/common": "^15.2.9",
@@ -64,6 +65,14 @@
     "date conversion calendar",
     "ngx hijri datepicker",
     "ngx calendar converter",
+    "time picker",
+    "datetime picker",
+    "range selection",
+    "bilingual datepicker",
+    "rtl datepicker",
+    "custom select dropdown",
+    "remix icon",
+    "modern datepicker",
     "hany gamal"
   ]
 }

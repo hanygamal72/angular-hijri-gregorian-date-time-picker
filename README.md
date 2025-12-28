@@ -23,6 +23,27 @@ Angular hijri gregorian with `Zero` dependents that supports conversion between 
   <img src="https://github.com/hanygamal72/angular-hijri-gregorian-date-time-picker/blob/master/src/assets/imgs/themes_ar.gif" width="40%"/>
 </p>
 
+## ✨ What's New in v1.5.0
+
+### 🎉 Major Features
+- **⏰ Time Picker** - Full time selection with 12-hour/24-hour format support
+- **📅 Range Selection** - Select date ranges with start and end dates
+- **🎨 Beautiful Custom Selects** - Modern dropdown menus with smooth animations
+- **🌐 Bilingual Typography** - Google Fonts integration (Poppins for English, Zain for Arabic)
+- **🎯 Initial Date Support** - Pre-select dates when calendar loads
+- **🎭 Remix Icons** - Modern icon integration throughout the UI
+
+### 🚀 Enhancements
+- Redesigned year/month selectors with professional styling
+- Enhanced RTL/LTR support with automatic font switching
+- Improved accessibility with proper ARIA labels
+- Smooth animations and transitions
+- Better mobile responsiveness
+
+[See full CHANGELOG](https://github.com/hanygamal72/angular-hijri-gregorian-date-time-picker/blob/master/projects/hijri-gregorian-datepicker/CHANGELOG.md)
+
+<br />
+
 ## Background
 
 The Umm Al-Qura calendar is the lunar Hijri calendar officially adopted by Saudi Arabia for administrative purposes. It was originated from Umm Al-Qura newspaper, the official newspaper of government of Saudi Arabia. The newspaper is published weekly and its first issue was on Friday, 15 Jumada al-Ula 1343 AH (12 December 1924 CE). However, the calendar has been printed and distributed separately by the Saudi government since 1346 AH (1927 CE).
@@ -46,17 +67,20 @@ Online demo can be found:
 ## Features
 
 - Can be used as a calendar or a datepicker.
-- **RTL** and **LTR** support
+- **RTL** and **LTR** support with **bilingual typography** (Poppins for English, Zain for Arabic)
 - Easy to switch between **Gregorian** and **Hijri** calendars.
 - Ability to specify the default calendar type either **Gregorian** or **Hijri**.
 - Converting dates when changing type of calendar.
 - Ability to specify min and max value for **Gregorian** and **Hijri**.
 - Ability to make it required or readonly.
-- Very easy to customize.
-- Can select **Multiple** dates.
+- Very easy to customize with **beautiful custom select dropdowns**.
+- Can select **Single**, **Multiple** dates, or **Date Ranges**.
+- **Time picker** with 12-hour/24-hour format support.
+- **Initial date** and **initial range** support for pre-selecting dates.
 - **Event listeners** for all datepicker events.
 - Can customize future and past years number.
-- **Responsive** desing for web and mobile.
+- **Responsive** design for web and mobile.
+- **Modern UI** with Remix Icons and smooth animations.
 
 <br />
 
@@ -99,7 +123,7 @@ import { HijriGregorianDatepickerModule } from 'angular-hijri-gregorian-date-tim
   [disableYearPicker]="false"
   [disableMonthPicker]="false"
   [disableDayPicker]="false"
-  [multiple]="true"
+  [multiple]="false"
   [isRequired]="false"
   [showConfirmButton]="true"
   [markToday]="true"
@@ -112,13 +136,15 @@ import { HijriGregorianDatepickerModule } from 'angular-hijri-gregorian-date-tim
   [yearSelectLabel]="'Year'"
   [monthSelectLabel]="'Month'"
   [futureValidationMessageEn]="'Selected date cannot be in the future!'"
-  [futureValidationMessageAr]="
-    'التاريخ المحدد لا يمكن ان يكون في المستقبل!'
-    "
+  [futureValidationMessageAr]="'التاريخ المحدد لا يمكن ان يكون في المستقبل!'"
   [pastYearsLimit]="90"
   [futureYearsLimit]="0"
   [theme]="'Midnight Blue'"
   [styles]="stylesConfig"
+  [enableTime]="true"
+  [useMeridian]="true"
+  [selectionMode]="'single'"
+  [initialDate]="new Date()"
   (onSubmit)="onSubmit($event)"
   (onDaySelect)="onChange($event)"
   (onMonthChange)="onMonthChangeTest($event)"
@@ -144,6 +170,71 @@ Inside your component.ts:
     // this called every time the year value channges
     onYearChangeEvent(code: string) {
     }
+```
+
+<br />
+
+## Usage Examples
+
+### Basic Usage (Single Date Selection)
+```html
+<hijri-gregorian-datepicker
+  [mode]="'greg'"
+  [dir]="'ltr'"
+  [locale]="'en'"
+  (onSubmit)="onSubmit($event)"
+></hijri-gregorian-datepicker>
+```
+
+### With Time Picker (12-hour format)
+```html
+<hijri-gregorian-datepicker
+  [enableTime]="true"
+  [useMeridian]="true"
+  [initialDate]="new Date(2025, 11, 15, 14, 30)"
+  (onSubmit)="onSubmit($event)"
+></hijri-gregorian-datepicker>
+```
+
+### With Time Picker (24-hour format)
+```html
+<hijri-gregorian-datepicker
+  [enableTime]="true"
+  [useMeridian]="false"
+  [initialDate]="new Date(2025, 11, 15, 18, 45)"
+  (onSubmit)="onSubmit($event)"
+></hijri-gregorian-datepicker>
+```
+
+### Range Selection Mode
+```html
+<hijri-gregorian-datepicker
+  [selectionMode]="'range'"
+  [enableTime]="true"
+  [initialRangeStart]="new Date(2025, 11, 10, 9, 0)"
+  [initialRangeEnd]="new Date(2025, 11, 20, 17, 30)"
+  (onSubmit)="onSubmit($event)"
+></hijri-gregorian-datepicker>
+```
+
+### Multiple Date Selection
+```html
+<hijri-gregorian-datepicker
+  [selectionMode]="'multiple'"
+  [showConfirmButton]="true"
+  (onSubmit)="onSubmit($event)"
+></hijri-gregorian-datepicker>
+```
+
+### RTL with Arabic Typography
+```html
+<hijri-gregorian-datepicker
+  [dir]="'rtl'"
+  [locale]="'ar'"
+  [mode]="'ummAlQura'"
+  [theme]="'Midnight Blue'"
+  (onSubmit)="onSubmit($event)"
+></hijri-gregorian-datepicker>
 ```
 
 <br />
@@ -175,7 +266,13 @@ Inside your component.ts:
 | <b>`pastYearsLimit`</b>            | number  |                     `90`                      | indicates for the past years number you want to allow user to select from                                        |
 | <b>`futureYearsLimit`</b>          | number  |                      `0`                      | indicates for the future years number you want to allow user to select from                                      |
 | <b>`styles`</b>                    | object  |                     `{}`                      | Styles for the calendar look and feel                                                                            |
-| <b>`theme`</b>                     | string  |                     `Midnight Blue`           | Different skins and themes for the calendar('Ocean Breeze', 'Lavender Dreams', 'Sunset Glow', 'Midnight Blue', 'Forest Canopy', 'Rosewood Elegance', 'Icy Mint', 'Golden Sand', 'Steel Grey', 'Coral Reef'), and it has priority over styles
+| <b>`theme`</b>                     | string  |                     `Midnight Blue`           | Different skins and themes for the calendar('Ocean Breeze', 'Lavender Dreams', 'Sunset Glow', 'Midnight Blue', 'Forest Canopy', 'Rosewood Elegance', 'Icy Mint', 'Golden Sand', 'Steel Grey', 'Coral Reef'), and it has priority over styles |
+| <b>`enableTime`</b>                | boolean |                    `false`                    | When `true` the time picker will be displayed allowing users to select hours and minutes |
+| <b>`useMeridian`</b>               | boolean |                    `false`                    | When `true` the time picker uses 12-hour format with AM/PM, if `false` uses 24-hour format |
+| <b>`selectionMode`</b>             | string  |                    `single`                   | Selection mode: `single` for one date, `multiple` for multiple dates, or `range` for date ranges |
+| <b>`initialDate`</b>               | Date    |                    `null`                     | Initial date to highlight when calendar loads (for single selection mode) |
+| <b>`initialRangeStart`</b>         | Date    |                    `null`                     | Initial start date for range selection mode |
+| <b>`initialRangeEnd`</b>           | Date    |                    `null`                     | Initial end date for range selection mode |
 
 <br />
 

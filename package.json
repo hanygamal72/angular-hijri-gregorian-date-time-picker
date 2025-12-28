@@ -5,6 +5,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:lib": "ng build hijri-gregorian-datepicker --configuration production",
+    "pack:lib": "cd dist/hijri-gregorian-datepicker && npm pack",
+    "publish:lib": "npm run build:lib && cd dist/hijri-gregorian-datepicker && npm publish --access public",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

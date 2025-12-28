@@ -1,14 +1,16 @@
-# Angular Hijri Gregorian Calendar(Datepicker)
+# Angular Hijri Gregorian Date Time Picker
 
 [![Build](https://img.shields.io/badge/build-passing-green.svg)](https://www.npmjs.com/package/angular-hijri-gregorian-date-time-picker)
+[![npm version](https://img.shields.io/badge/npm-v1.5.0-blue.svg)](https://www.npmjs.com/package/angular-hijri-gregorian-date-time-picker)
 [![Dependencies](https://img.shields.io/badge/dependencies-uptodate-green.svg)](https://www.npmjs.com/package/angular-hijri-gregorian-date-time-picker)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://www.npmjs.com/package/angular-hijri-gregorian-date-time-picker)
 
-- Most accurate Hijri, Gregorian calendar(date-picker) on NPM with 100% accuracy percentage.
+- Most accurate Hijri, Gregorian calendar(date-picker) with **time picker** on NPM with 100% accuracy percentage.
 - Robust and tested code angular hijri/gregorian calendar/date-picker component for Angular 10 - 16, 18+ projects.
 - Ionic 3 - 4, 5, 6 + is supported, can be used in iOS and Android.
-- `Zero` dependents package.
+- `Zero` npm dependents package.
 - 10 different `themes` and `layouts` already built in, you can also customize your own as well.
+- **NEW:** Time picker with 12h/24h formats, Range selection, Beautiful custom selects, Bilingual typography
 
 ## Dependents
 
@@ -22,6 +24,26 @@ Angular hijri gregorian with `Zero` dependents that supports conversion between 
   <img src="https://github.com/hanygamal72/angular-hijri-gregorian-date-time-picker/blob/master/src/assets/imgs/themes_en.gif" width="40%"/>
   <img src="https://github.com/hanygamal72/angular-hijri-gregorian-date-time-picker/blob/master/src/assets/imgs/themes_ar.gif" width="40%"/>
 </p>
+
+## ✨ What's New in v1.5.0
+
+### 🎉 Major Features
+- **⏰ Time Picker** - Full time selection with 12-hour/24-hour format support
+- **📅 Range Selection** - Select date ranges with start and end dates
+- **🎨 Beautiful Custom Selects** - Modern dropdown menus with smooth animations and Remix Icons
+- **🌐 Bilingual Typography** - Google Fonts integration (Poppins for English, Zain for Arabic)
+- **🎯 Initial Date Support** - Pre-select dates/ranges when calendar loads (`initialDate`, `initialRangeStart`, `initialRangeEnd`)
+
+### 🚀 UI/UX Enhancements
+- Redesigned year/month selectors with professional styling
+- Enhanced RTL/LTR support with automatic font switching
+- Improved accessibility with proper ARIA labels
+- Smooth animations and transitions throughout
+- Better mobile responsiveness
+
+[See full CHANGELOG](https://github.com/hanygamal72/angular-hijri-gregorian-date-time-picker/blob/master/projects/hijri-gregorian-datepicker/CHANGELOG.md)
+
+<br />
 
 ## Background
 
@@ -37,17 +59,21 @@ However, the Gregorian calendar is the calendar used in most of the world, and i
 
 ## Features
 
-- Can be used as a calendar or a datepicker.
-- **RTL** and **LTR** support
+- Can be used as a calendar or a datepicker with **time selection**.
+- **RTL** and **LTR** support with **bilingual typography** (Poppins for English, Zain for Arabic)
 - Easy to switch between **Gregorian** and **Hijri** calendars.
 - Ability to specify the default calendar type either **Gregorian** or **Hijri**.
 - Converting dates when changing type of calendar.
 - Ability to specify min and max value for **Gregorian** and **Hijri**.
 - Ability to make it required or readonly.
-- Very easy to customize.
-- Can select **Multiple** dates.
+- Very easy to customize with **beautiful custom select dropdowns**.
+- Can select **Single**, **Multiple** dates, or **Date Ranges**.
+- **Time picker** with 12-hour/24-hour format support.
+- **Initial date** and **initial range** support for pre-selecting dates.
 - **Event listeners** for all datepicker events.
 - Can customize future and past years number.
+- **Responsive** design for web and mobile.
+- **Modern UI** with Remix Icons and smooth animations.
 - **Responsive** desing for web and mobile.
 
 <br />
