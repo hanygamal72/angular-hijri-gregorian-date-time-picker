@@ -20,7 +20,9 @@ import * as themesConfig from '../themes/themes.json';
   templateUrl: './hijri-gregorian-datepicker.component.html',
   styleUrls: ['./hijri-gregorian-datepicker.component.scss'],
 })
-export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, AfterViewInit {
+export class HijriGregorianDatepickerComponent
+  implements OnInit, OnChanges, AfterViewInit
+{
   /// Inputs
   @Input() markToday: boolean = true;
   @Input() canChangeMode: boolean = true;
@@ -54,15 +56,15 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
   @Input() minDate?: Date | string; // Minimum allowed date (Gregorian Date or DD/MM/YYYY string)
   @Input() maxDate?: Date | string; // Maximum allowed date (Gregorian Date or DD/MM/YYYY string)
   @Input() initialDate?: Date | string; // Initial date to navigate to when picker opens
-  
+
   // Range selection initial dates
   @Input() initialRangeStart?: Date | string; // Initial start date for range selection
   @Input() initialRangeEnd?: Date | string; // Initial end date for range selection
-  
+
   // BACKWARD COMPATIBILITY: Default to false (24-hour format)
   // When true, displays 12-hour format with AM/PM toggle
   @Input() useMeridian: boolean = false; // Enable 12-hour format with AM/PM
-  
+
   // BACKWARD COMPATIBILITY: Default to 'single' (existing behavior)
   // 'range' enables range selection mode (first click = start, second click = end)
   @Input() selectionMode: 'single' | 'range' = 'single';
@@ -118,14 +120,14 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
   // BACKWARD COMPATIBILITY: selectedTime defaults to 0:0 to preserve existing behavior when enableTime=false
   // When enableTime=true, this will be initialized to current system time in ngOnInit
   selectedTime: { hour: number; minute: number } = { hour: 0, minute: 0 };
-  
+
   // Track if time has been initialized to avoid re-initializing at midnight
   private timeInitialized: boolean = false;
-  
+
   // BACKWARD COMPATIBILITY: Meridian only used when useMeridian=true
   // Tracks AM/PM state for 12-hour format
   meridian: 'AM' | 'PM' = 'AM';
-  
+
   // Range selection state
   // BACKWARD COMPATIBILITY: These are only used when selectionMode='range'
   // They do not affect single or multiple selection modes
@@ -160,8 +162,13 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!changes['mode'].isFirstChange()) {
-      this.changeCalendarMode();
+    if (changes['mode'] && !changes['mode'].isFirstChange()) {
+      // Don't emit during initialization, only when mode changes after init
+      const previousMode = changes['mode'].previousValue;
+      const currentMode = changes['mode'].currentValue;
+      if (previousMode !== currentMode) {
+        this.changeCalendarMode();
+      }
     }
   }
 
@@ -320,9 +327,12 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
     }
 
     this.generatetMonthData(dateToNavigate);
-    
+
     // Highlight initialDate or initialRange if provided
-    if (this.selectionMode === 'range' && (this.initialRangeStart || this.initialRangeEnd)) {
+    if (
+      this.selectionMode === 'range' &&
+      (this.initialRangeStart || this.initialRangeEnd)
+    ) {
       this.highlightInitialRange();
     } else if (this.initialDate) {
       this.highlightInitialDate();
@@ -341,8 +351,9 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
       return;
     }
 
-    const normalizedInitialDate =
-      this._dateUtilsService.normalizeDateToString(this.initialDate);
+    const normalizedInitialDate = this._dateUtilsService.normalizeDateToString(
+      this.initialDate
+    );
 
     if (!normalizedInitialDate) {
       return;
@@ -356,7 +367,7 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
           if (!this.isDateDisabled(day)) {
             // Mark as selected without triggering events
             day.selected = true;
-            
+
             // Set as selectedDay based on selection mode
             if (this.selectionMode === 'range') {
               this.rangeStart = day;
@@ -365,17 +376,17 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
             } else {
               this.selectedDay = day;
             }
-            
+
             // Initialize time if enableTime is active
             if (this.enableTime && !this.timeInitialized) {
               this.initializeTime();
             }
-            
+
             // Attach time to the day if it's a Date object with time
             if (this.enableTime && this.initialDate instanceof Date) {
               day.time = {
                 hour: this.initialDate.getHours(),
-                minute: this.initialDate.getMinutes()
+                minute: this.initialDate.getMinutes(),
               };
             }
           }
@@ -422,7 +433,7 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
       startDay.selected = true;
       this.rangeStart = startDay;
       this.selectedDay = startDay;
-      
+
       // Initialize and attach time to start date
       if (this.enableTime) {
         if (!this.timeInitialized) {
@@ -431,7 +442,7 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
         if (this.initialRangeStart instanceof Date) {
           startDay.time = {
             hour: this.initialRangeStart.getHours(),
-            minute: this.initialRangeStart.getMinutes()
+            minute: this.initialRangeStart.getMinutes(),
           };
         } else {
           startDay.time = { ...this.selectedTime };
@@ -442,9 +453,9 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
     // Set range end if provided
     if (endDay && startDay) {
       // Swap if end is before start
-      const startDate = this.parseDateString(startDay.gD);
-      const endDate = this.parseDateString(endDay.gD);
-      
+      const startDate = this._dateUtilsService.parseDate(startDay.gD);
+      const endDate = this._dateUtilsService.parseDate(endDay.gD);
+
       if (endDate && startDate && endDate < startDate) {
         // Swap
         this.rangeEnd = startDay;
@@ -453,14 +464,14 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
       } else {
         this.rangeEnd = endDay;
       }
-      
+
       // Attach time to end date (inherit from start)
       if (this.enableTime) {
         const timeToUse = this.rangeStart.time || { ...this.selectedTime };
         if (this.initialRangeEnd instanceof Date) {
           this.rangeEnd.time = {
             hour: this.initialRangeEnd.getHours(),
-            minute: this.initialRangeEnd.getMinutes()
+            minute: this.initialRangeEnd.getMinutes(),
           };
         } else {
           this.rangeEnd.time = { ...timeToUse };
@@ -468,7 +479,7 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
         // Ensure start also has time
         this.rangeStart.time = { ...timeToUse };
       }
-      
+
       // Highlight the range
       this.highlightRange();
       this.selectedDay = this.rangeEnd;
@@ -514,6 +525,90 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
         '/' +
         this.periodForm.controls['year'].value
     );
+
+    // Reapply selection after mode change
+    this.reapplySelection();
+  }
+
+  /**
+   * Reapply selection state after calendar regeneration
+   * This ensures selected days remain highlighted when switching between modes
+   */
+  private reapplySelection(): void {
+    if (!this.weeks || this.weeks.length === 0) {
+      return;
+    }
+
+    // Handle range selection mode
+    if (this.selectionMode === 'range') {
+      if (this.rangeStart && this.rangeEnd) {
+        this.highlightRange();
+        // Restore time to range dates
+        if (this.enableTime) {
+          this.weeks.forEach((week: any) => {
+            week.forEach((day: DayInfo) => {
+              if (day && day.gD === this.rangeStart?.gD && this.rangeStart.time) {
+                day.time = { ...this.rangeStart.time };
+              }
+              if (day && day.gD === this.rangeEnd?.gD && this.rangeEnd.time) {
+                day.time = { ...this.rangeEnd.time };
+              }
+            });
+          });
+        }
+      } else if (this.rangeStart) {
+        // Only start date selected
+        this.weeks.forEach((week: any) => {
+          week.forEach((day: DayInfo) => {
+            if (day && day.gD === this.rangeStart?.gD) {
+              day.selected = true;
+              // Restore time
+              if (this.enableTime && this.rangeStart.time) {
+                day.time = { ...this.rangeStart.time };
+                this.selectedTime = { ...this.rangeStart.time };
+              }
+            }
+          });
+        });
+      }
+      return;
+    }
+
+    // Handle single/multiple selection mode
+    if (this.selectedDay) {
+      this.weeks.forEach((week: any) => {
+        week.forEach((day: DayInfo) => {
+          if (day && day.gD === this.selectedDay?.gD) {
+            day.selected = true;
+            // Restore time
+            if (this.enableTime && this.selectedDay.time) {
+              day.time = { ...this.selectedDay.time };
+              this.selectedTime = { ...this.selectedDay.time };
+            }
+          }
+        });
+      });
+    }
+
+    // Handle multiple selection
+    if (this.multipleSelectedDates && this.multipleSelectedDates.length > 0) {
+      this.weeks.forEach((week: any) => {
+        week.forEach((day: DayInfo) => {
+          if (day && day.gD) {
+            const matchingDay = this.multipleSelectedDates.find(
+              (selectedDay) => selectedDay.gD === day.gD
+            );
+            if (matchingDay) {
+              day.selected = true;
+              // Restore time
+              if (this.enableTime && matchingDay.time) {
+                day.time = { ...matchingDay.time };
+              }
+            }
+          }
+        });
+      });
+    }
   }
 
   /// On day clicked handler
@@ -544,7 +639,7 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
       this.handleRangeSelection(dayInfo);
       return;
     }
-    
+
     // BACKWARD COMPATIBILITY: Original behavior for single/multiple selection
     if (dayInfo.selected) {
       dayInfo.selected = false;
@@ -599,7 +694,7 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
   /**
    * Handle range selection logic
    * BACKWARD COMPATIBILITY: Only called when selectionMode='range'
-   * 
+   *
    * Range selection lifecycle:
    * 1. First click → Sets rangeStart
    * 2. Second click → Sets rangeEnd, highlights range
@@ -612,7 +707,7 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
       this.rangeStart = dayInfo;
       dayInfo.selected = true;
       this.selectedDay = dayInfo;
-      
+
       // Attach current time if enableTime is active
       if (this.enableTime) {
         // Ensure selectedTime is initialized
@@ -622,14 +717,14 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
         }
         dayInfo.time = { ...this.selectedTime };
       }
-      
+
       this.onDaySelect.emit({ start: dayInfo, end: null });
     }
     // Second click - complete the range
     else if (this.rangeStart && !this.rangeEnd) {
-      const startDate = this.parseDateString(this.rangeStart.gD);
-      const endDate = this.parseDateString(dayInfo.gD);
-      
+      const startDate = this._dateUtilsService.parseDate(this.rangeStart.gD);
+      const endDate = this._dateUtilsService.parseDate(dayInfo.gD);
+
       // Swap if end is before start
       if (endDate && startDate && endDate < startDate) {
         this.rangeEnd = this.rangeStart;
@@ -637,7 +732,7 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
       } else {
         this.rangeEnd = dayInfo;
       }
-      
+
       // Attach time if enableTime is active
       // IMPORTANT: Range end inherits time from range start (not current selectedTime)
       if (this.enableTime) {
@@ -646,10 +741,10 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
         this.rangeStart.time = { ...timeToUse };
         this.rangeEnd.time = { ...timeToUse };
       }
-      
+
       this.highlightRange();
       this.selectedDay = this.rangeEnd;
-      
+
       this.onDaySelect.emit({ start: this.rangeStart, end: this.rangeEnd });
     }
   }
@@ -663,7 +758,13 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
         const rangeDates: DayInfo[] = [];
         this.weeks.forEach((week: any) => {
           week.forEach((day: DayInfo) => {
-            if (day && day.gD && (this.isInRange(day) || this.isRangeStart(day) || this.isRangeEnd(day))) {
+            if (
+              day &&
+              day.gD &&
+              (this.isInRange(day) ||
+                this.isRangeStart(day) ||
+                this.isRangeEnd(day))
+            ) {
               // Attach current time if enableTime is active
               if (this.enableTime && !day.time) {
                 day.time = { ...this.selectedTime };
@@ -672,11 +773,11 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
             }
           });
         });
-        
-        this.onSubmit.emit({ 
-          start: this.rangeStart, 
+
+        this.onSubmit.emit({
+          start: this.rangeStart,
           end: this.rangeEnd,
-          dates: rangeDates 
+          dates: rangeDates,
         });
       } else {
         // Incomplete range
@@ -684,7 +785,7 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
       }
       return;
     }
-    
+
     // BACKWARD COMPATIBILITY: Original behavior for multiple/single selection
     if (this.multiple) {
       // For multiple dates, attach time to each if enableTime is active
@@ -774,10 +875,10 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
         minute: now.getMinutes(),
       };
     }
-    
+
     // Mark that time has been initialized
     this.timeInitialized = true;
-    
+
     // BACKWARD COMPATIBILITY: Only set meridian when useMeridian=true
     if (this.useMeridian) {
       this.meridian = this.selectedTime.hour >= 12 ? 'PM' : 'AM';
@@ -887,28 +988,45 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
   private updateSelectedDayTime(): void {
     if (this.selectedDay) {
       this.selectedDay.time = { ...this.selectedTime };
+      // Emit the updated day info so datetime-input can capture time-only changes
+      this.onDaySelect.emit(this.selectedDay);
+    }
+    // Handle range mode time updates
+    if (this.selectionMode === 'range') {
+      if (this.rangeStart) {
+        this.rangeStart.time = { ...this.selectedTime };
+      }
+      if (this.rangeEnd) {
+        this.rangeEnd.time = { ...this.selectedTime };
+      }
+      // Emit the updated range
+      if (this.rangeStart && this.rangeEnd) {
+        this.onDaySelect.emit({ start: this.rangeStart, end: this.rangeEnd });
+      } else if (this.rangeStart) {
+        this.onDaySelect.emit({ start: this.rangeStart, end: null });
+      }
     }
   }
 
   /**
    * Get display hour for 12-hour format
    * BACKWARD COMPATIBILITY: Only used when useMeridian=true
-   * 
+   *
    * Conversion:
    * - 0 (midnight) → 12 AM
    * - 1-11 (AM) → 1-11 AM
    * - 12 (noon) → 12 PM
    * - 13-23 (PM) → 1-11 PM
-   * 
+   *
    * IMPORTANT: Hour 0 is NEVER displayed as 0, always as 12
    */
   getDisplayHour(): number {
     if (!this.useMeridian) {
       return this.selectedTime.hour;
     }
-    
+
     const hour = this.selectedTime.hour;
-    
+
     // Midnight (0) → 12
     if (hour === 0) {
       return 12;
@@ -926,7 +1044,7 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
   /**
    * Toggle AM/PM meridian
    * BACKWARD COMPATIBILITY: Only available when useMeridian=true
-   * 
+   *
    * When toggling:
    * - Adds or subtracts 12 hours
    * - Maintains internal 24-hour format
@@ -955,14 +1073,14 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
   incrementHour12(): void {
     let displayHour = this.getDisplayHour();
     displayHour = (displayHour % 12) + 1; // 1-12 cycle
-    
+
     // Convert back to 24-hour format
     if (this.meridian === 'AM') {
       this.selectedTime.hour = displayHour === 12 ? 0 : displayHour;
     } else {
       this.selectedTime.hour = displayHour === 12 ? 12 : displayHour + 12;
     }
-    
+
     this.updateSelectedDayTime();
   }
 
@@ -973,42 +1091,42 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
   decrementHour12(): void {
     let displayHour = this.getDisplayHour();
     displayHour = displayHour === 1 ? 12 : displayHour - 1; // 1-12 cycle
-    
+
     // Convert back to 24-hour format
     if (this.meridian === 'AM') {
       this.selectedTime.hour = displayHour === 12 ? 0 : displayHour;
     } else {
       this.selectedTime.hour = displayHour === 12 ? 12 : displayHour + 12;
     }
-    
+
     this.updateSelectedDayTime();
   }
 
   /**
    * Handle 12-hour input change
    * BACKWARD COMPATIBILITY: Only used when useMeridian=true
-   * 
+   *
    * IMPORTANT: Input must be 1-12, never 0
    * - User types 0 → converted to 12
    * - User types > 12 → clamped to 12
    */
   onHour12InputChange(event: any): void {
     let value = parseInt(event.target.value, 10);
-    
+
     // Validate 1-12 range (0 is not allowed in 12-hour format)
     if (isNaN(value) || value < 1 || value === 0) {
       value = 12; // Default to 12 if invalid or 0
     } else if (value > 12) {
       value = 12;
     }
-    
+
     // Convert to 24-hour format
     if (this.meridian === 'AM') {
       this.selectedTime.hour = value === 12 ? 0 : value;
     } else {
       this.selectedTime.hour = value === 12 ? 12 : value + 12;
     }
-    
+
     event.target.value = value;
     this.updateSelectedDayTime();
   }
@@ -1018,18 +1136,23 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
    * BACKWARD COMPATIBILITY: Only used when selectionMode='range'
    */
   isInRange(day: DayInfo): boolean {
-    if (this.selectionMode !== 'range' || !this.rangeStart || !this.rangeEnd || !day?.gD) {
+    if (
+      this.selectionMode !== 'range' ||
+      !this.rangeStart ||
+      !this.rangeEnd ||
+      !day?.gD
+    ) {
       return false;
     }
-    
-    const dayDate = this.parseDateString(day.gD);
-    const startDate = this.parseDateString(this.rangeStart.gD);
-    const endDate = this.parseDateString(this.rangeEnd.gD);
-    
+
+    const dayDate = this._dateUtilsService.parseDate(day.gD);
+    const startDate = this._dateUtilsService.parseDate(this.rangeStart.gD);
+    const endDate = this._dateUtilsService.parseDate(this.rangeEnd.gD);
+
     if (!dayDate || !startDate || !endDate) {
       return false;
     }
-    
+
     return dayDate >= startDate && dayDate <= endDate;
   }
 
@@ -1038,8 +1161,7 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
    * BACKWARD COMPATIBILITY: Only used when selectionMode='range'
    */
   isRangeStart(day: DayInfo): boolean {
-    return this.selectionMode === 'range' && 
-           this.rangeStart?.gD === day?.gD;
+    return this.selectionMode === 'range' && this.rangeStart?.gD === day?.gD;
   }
 
   /**
@@ -1047,8 +1169,7 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
    * BACKWARD COMPATIBILITY: Only used when selectionMode='range'
    */
   isRangeEnd(day: DayInfo): boolean {
-    return this.selectionMode === 'range' && 
-           this.rangeEnd?.gD === day?.gD;
+    return this.selectionMode === 'range' && this.rangeEnd?.gD === day?.gD;
   }
 
   /**
@@ -1059,7 +1180,7 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
     if (this.selectionMode !== 'range') {
       return;
     }
-    
+
     // Clear range highlighting
     this.weeks.forEach((week: any) => {
       week.forEach((day: DayInfo) => {
@@ -1068,27 +1189,10 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
         }
       });
     });
-    
+
     this.rangeStart = undefined;
     this.rangeEnd = undefined;
     this.selectedDay = undefined;
-  }
-
-  /**
-   * Parse date string (DD/MM/YYYY) to Date object
-   * Helper for range comparison
-   */
-  private parseDateString(dateStr: string): Date | null {
-    if (!dateStr) return null;
-    
-    const parts = dateStr.split('/');
-    if (parts.length !== 3) return null;
-    
-    const day = parseInt(parts[0], 10);
-    const month = parseInt(parts[1], 10) - 1; // Month is 0-indexed
-    const year = parseInt(parts[2], 10);
-    
-    return new Date(year, month, day);
   }
 
   /**
@@ -1099,13 +1203,14 @@ export class HijriGregorianDatepickerComponent implements OnInit, OnChanges, Aft
     if (this.selectionMode !== 'range' || !this.rangeStart || !this.rangeEnd) {
       return;
     }
-    
+
     this.weeks.forEach((week: any) => {
       week.forEach((day: DayInfo) => {
         if (day && day.gD) {
-          day.selected = this.isInRange(day) || 
-                        this.isRangeStart(day) || 
-                        this.isRangeEnd(day);
+          day.selected =
+            this.isInRange(day) ||
+            this.isRangeStart(day) ||
+            this.isRangeEnd(day);
         }
       });
     });

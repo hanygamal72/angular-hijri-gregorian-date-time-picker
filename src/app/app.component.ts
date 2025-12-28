@@ -11,10 +11,16 @@ import { stylesConfig } from 'projects/hijri-gregorian-datepicker/src/_interface
 export class AppComponent {
   toggle: boolean = false;
   selectedDate: DayInfo;
+
+  // NEW: Properties for DateTime Input Component demos
+  inputSelectedDate: DayInfo | null = null;
+  inputSelectedDate2: DayInfo | null = null;
+  inputRangeDate: DayInfo[] | null = null;
+
   stylesConfig: stylesConfig = {
-    backgroundColor: '#000',
+    backgroundColor: '#ffffff',
     primaryColor: '#116466',
-    secondaryColor: '#2c3531',
+    secondaryColor: '#999999',
     todaysDateBgColor: '#116466',
     todaysDateTextColor: '#e3f4f4',
     confirmBtnTextColor: '#e3f4f4',
@@ -143,5 +149,27 @@ export class AppComponent {
 
   toggleTimePicker() {
     this.enableTime = !this.enableTime;
+  }
+
+  // NEW: Handler for DateTime Input Component
+  onInputDateSelected(event: DayInfo | DayInfo[] | null) {
+    console.log('🎯 DateTime Input Selected:', event);
+
+    if (!event) {
+      console.log('🗑️ Value cleared');
+      return;
+    }
+
+    if (Array.isArray(event)) {
+      console.log('📅 Range:', event[0]?.gD, '→', event[1]?.gD);
+    } else {
+      console.log('📅 Date:', event.gD);
+      if (event.time) {
+        console.log(
+          '⏰ Time:',
+          `${event.time.hour}:${event.time.minute.toString().padStart(2, '0')}`
+        );
+      }
+    }
   }
 }

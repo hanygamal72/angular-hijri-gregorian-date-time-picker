@@ -1,0 +1,109 @@
+<!--
+  DateTime Input Component Template
+  
+  Structure:
+  1. Input field (click to open dropdown)
+  2. Dropdown container (positioned absolutely)
+  3. Calendar component (reuses existing hijri-gregorian-datepicker)
+  4. Action buttons (Confirm/Cancel)
+-->
+
+<div class="datetime-input-wrapper">
+  <!-- INPUT FIELD -->
+  <div class="input-container">
+    <input
+      #inputElement
+      type="text"
+      class="datetime-input"
+      [class]="'datetime-input ' + inputClass"
+      [value]="displayValue"
+      [placeholder]="placeholder"
+      [disabled]="disabled"
+      (click)="toggleDropdown()"
+      (keydown)="onInputKeydown($event)"
+      readonly
+      [attr.aria-expanded]="isDropdownOpen"
+      [attr.aria-haspopup]="true"
+      [attr.aria-label]="placeholder"
+    />
+
+    <!-- Calendar Icon -->
+    <span
+      class="input-icon"
+      (click)="toggleDropdown()"
+      [class.disabled]="disabled"
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6"></line>
+        <line x1="8" y1="2" x2="8" y2="6"></line>
+        <line x1="3" y1="10" x2="21" y2="10"></line>
+      </svg>
+    </span>
+
+    <!-- Clear Button (only if value exists) -->
+    <button
+      *ngIf="displayValue && !disabled"
+      type="button"
+      class="clear-button"
+      (click)="clearValue(); $event.stopPropagation()"
+      aria-label="Clear value"
+    >
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+
+  <!-- DROPDOWN PANEL -->
+  <div
+    #dropdownContainer
+    class="dropdown-panel"
+    [class]="'dropdown-panel ' + dropdownClass"
+    [class.open]="isDropdownOpen"
+    [class.closed]="!isDropdownOpen"
+    *ngIf="isDropdownOpen"
+  >
+    <!-- Calendar Component (reuses existing component) -->
+    <div class="calendar-wrapper">
+      <hijri-gregorian-datepicker
+        [mode]="currentMode"
+        [locale]="locale"
+        [dir]="dir"
+        [enableTime]="enableTime"
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        [initialDate]="getInitialDateForCalendar()"
+        [initialRangeStart]="getInitialRangeStart()"
+        [initialRangeEnd]="getInitialRangeEnd()"
+        [theme]="theme"
+        [styles]="styles"
+        [futureValidation]="futureValidation"
+        [markToday]="markToday"
+        [todaysDateSection]="todaysDateSection"
+        [useMeridian]="useMeridian"
+        [selectionMode]="selectionMode"
+        [showConfirmButton]="false"
+        [submitTextButton]="submitTextButton"
+        (onSubmit)="onCalendarSubmit($any($event))"
+        (onDaySelect)="onDaySelect($any($event))"
+      >
+      </hijri-gregorian-datepicker>
+    </div>
+  </div>
+</div>

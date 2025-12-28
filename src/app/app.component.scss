@@ -1,4 +1,72 @@
 .app-container {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  // Demo section styling
+  .demo-section {
+    margin-bottom: 4rem;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+
+    h2 {
+      color: #2c3531;
+      margin-bottom: 0.5rem;
+      font-size: 1.75rem;
+    }
+
+    .description {
+      color: #6c757d;
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+  }
+
+  // Grid layout for input demos
+  .input-demo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .demo-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    h3 {
+      font-size: 1rem;
+      color: #495057;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+  }
+
+  // Output display
+  .output-display {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    h4 {
+      margin-top: 0;
+      color: #116466;
+    }
+
+    pre {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 0.875rem;
+    }
+  }
+
   .open-datepicker {
     background: #1aaec8;
     border-radius: 10px;
@@ -25,7 +93,19 @@
     display: block;
     margin: auto;
     white-space: pre-wrap;
+    margin-top: 2rem;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    p {
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
   }
+
   #toggle-btn {
     background-color: #272343;
     color: #fff;
@@ -35,5 +115,18 @@
     border: 0;
     padding: 10px 20px;
     border-radius: 10px;
+  }
+
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    padding: 1rem;
+
+    .demo-section {
+      padding: 1rem;
+    }
+
+    .input-demo-grid {
+      grid-template-columns: 1fr;
+    }
   }
 }

@@ -19,7 +19,7 @@
         [ngStyle]="
           calendarCheckbox.checked
             ? { 'background-color': styles.primaryColor }
-            : { 'background-color': styles.backgroundColor }
+            : { 'background-color': styles.secondaryColor }
         "
       ></span>
     </label>
@@ -165,17 +165,22 @@
             id="greg-day"
             [ngClass]="{
               'todays-date': checkTodaysDate(day),
-              'selected-date': day?.selected == true
+              'selected-date': day?.selected == true,
+              'disabled-day': isDateDisabled(day) || (checkFutureValidation(day) && futureValidation),
+              'range-start': isRangeStart(day),
+              'range-end': isRangeEnd(day),
+              'in-range': isInRange(day)
             }"
             [ngStyle]="{
               border:
                 markToday && checkTodaysDate(day)
-                  ? '1px solid ' + styles.secondaryColor
+                  ? '1px solid ' + styles.primaryColor
                   : '',
               'background-color':
-                day?.selected == true ? styles.secondaryColor : '',
+                (day?.selected == true || isRangeStart(day) || isRangeEnd(day)) ? styles.primaryColor :
+                isInRange(day) ? (styles.primaryColor + '33') : '',
               color:
-                (day?.selected == true ? styles.todaysDateTextColor : '') ||
+                (day?.selected == true || isRangeStart(day) || isRangeEnd(day) || isInRange(day) ? styles.todaysDateTextColor : '') ||
                 (checkFutureValidation(day) && futureValidation
                   ? styles.disabledDayColor
                   : '') ||

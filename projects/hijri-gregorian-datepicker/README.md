@@ -95,6 +95,40 @@ import { HijriGregorianDatepickerModule } from 'angular-hijri-gregorian-date-tim
 })
 ```
 
+### Option 1: DateTime Input Component (Recommended)
+
+Use the `hijri-gregorian-datetime-input` component for a complete input field with dropdown calendar:
+
+```html
+<hijri-gregorian-datetime-input
+  [(ngModel)]="selectedDate"
+  [mode]="'greg'"
+  [locale]="'en'"
+  [dir]="'ltr'"
+  [enableTime]="true"
+  [selectionMode]="'single'"
+  [placeholder]="'Select date and time'"
+  [minDate]="minDate"
+  [maxDate]="maxDate"
+  [useMeridian]="true"
+  [styles]="stylesConfig"
+  (dateSelected)="onDateSelected($event)"
+></hijri-gregorian-datetime-input>
+```
+
+**Features:**
+- ✅ Form integration (works with `ngModel` and `formControlName`)
+- ✅ Click-outside to close
+- ✅ Keyboard support (Escape to close, Enter to open)
+- ✅ Automatic date/time formatting in input field
+- ✅ Clear button
+- ✅ Remembers calendar mode and selected dates between open/close
+- ✅ Supports all calendar features (time picker, range selection, etc.)
+
+### Option 2: Calendar Component (Direct)
+
+Use the `hijri-gregorian-datepicker` component directly for embedded calendars:
+
 ```html
 <hijri-gregorian-datepicker
   [canChangeMode]="true"
@@ -150,6 +184,31 @@ Inside your component.ts:
 ```
 
 ## @Inputs()
+
+### DateTime Input Component
+
+| Property                           |  Type   |                    Default                    | Description                                                                                                      |
+| ---------------------------------- | :-----: | :-------------------------------------------: | ---------------------------------------------------------------------------------------------------------------- |
+| <b>`placeholder`</b>               | string  |        `Select date and time`                 | Placeholder text for the input field                                                                              |
+| <b>`disabled`</b>                  | boolean |                    `false`                    | When `true` the input is disabled                                                                                 |
+| <b>`enableTime`</b>                | boolean |                    `false`                    | When `true` enables time picker in the dropdown calendar                                                          |
+| <b>`minDate`</b>                   | Date    |                    `null`                     | Minimum selectable date                                                                                           |
+| <b>`maxDate`</b>                   | Date    |                    `null`                     | Maximum selectable date                                                                                           |
+| <b>`initialDate`</b>               | Date    |                    `null`                     | Initial date to display when opening calendar                                                                     |
+| <b>`mode`</b>                      | string  |                    `greg`                     | Calendar mode, either `ummAlQura` or `greg`                                                                      |
+| <b>`locale`</b>                    | string  |                     `en`                      | The language, either `ar` or `en`                                                                                |
+| <b>`dir`</b>                       | string  |                     `ltr`                     | Layout direction, either `ltr` or `rtl`                                                                          |
+| <b>`selectionMode`</b>             | string  |                   `single`                    | Date selection mode, either `single` or `range`                                                                  |
+| <b>`useMeridian`</b>               | boolean |                    `false`                    | When `true` uses 12-hour format with AM/PM, if `false` uses 24-hour format                                       |
+| <b>`styles`</b>                    | object  |                     `{}`                      | Styles configuration object                                                                                      |
+| <b>`theme`</b>                     | string  |                     `''`                      | Theme name (overrides styles)                                                                                    |
+
+**DateTime Input Events:**
+- `dateSelected` - Emitted when date is selected
+- `dropdownOpened` - Emitted when dropdown opens
+- `dropdownClosed` - Emitted when dropdown closes
+
+### Calendar Component
 
 | Property                           |  Type   |                    Default                    | Description                                                                                                      |
 | ---------------------------------- | :-----: | :-------------------------------------------: | ---------------------------------------------------------------------------------------------------------------- |
