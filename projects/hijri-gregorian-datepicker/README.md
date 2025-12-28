@@ -5,18 +5,12 @@
 [![Dependencies](https://img.shields.io/badge/dependencies-uptodate-green.svg)](https://www.npmjs.com/package/angular-hijri-gregorian-date-time-picker)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://www.npmjs.com/package/angular-hijri-gregorian-date-time-picker)
 
-- Most accurate Hijri, Gregorian calendar(date-picker) with **time picker** on NPM with 100% accuracy percentage.
-- Robust and tested code angular hijri/gregorian calendar/date-picker component for Angular 10 - 16, 18+ projects.
+- Most accurate Hijri, Gregorian calendar(date-picker) on NPM with 100% accuracy percentage.
+- Robust and tested code angular hijri/gregorian calendar/date-picker component for Angular 10 - 20+ projects.
 - Ionic 3 - 4, 5, 6 + is supported, can be used in iOS and Android.
 - `Zero` npm dependents package.
 - 10 different `themes` and `layouts` already built in, you can also customize your own as well.
 - **NEW:** Time picker with 12h/24h formats, Range selection, Beautiful custom selects, Bilingual typography
-
-## Dependents
-
-Angular hijri gregorian with `Zero` dependents that supports conversion between Gregorian and Hijri calendars.
-
-<br />
 
 ## Preview
 
@@ -55,8 +49,6 @@ However, the Gregorian calendar is the calendar used in most of the world, and i
 
 <b> Star it to inspire us to build the best component! </b>
 
-<br />
-
 ## Features
 
 - Can be used as a calendar or a datepicker with **time selection**.
@@ -76,8 +68,6 @@ However, the Gregorian calendar is the calendar used in most of the world, and i
 - **Modern UI** with Remix Icons and smooth animations.
 - **Responsive** desing for web and mobile.
 
-<br />
-
 ## Supported platforms
 
 <b>Angular</b> 10 - 16, 18 +<br />
@@ -86,13 +76,9 @@ Mobile browsers and WebViews on: <b>Android</b> and <b>iOS</b><br />
 Desktop browsers: <b>Chrome, Firefox, Safari, Edge v.79 +</b><br />
 Other browsers: <b>Edge v.41 - 44</b> (without code hidden feature)
 
-<br />
-
 ## Installation
 
     $ npm install angular-hijri-gregorian-date-time-picker
-
-<br />
 
 ## Usage
 
@@ -117,7 +103,6 @@ import { HijriGregorianDatepickerModule } from 'angular-hijri-gregorian-date-tim
   [disableYearPicker]="false"
   [disableMonthPicker]="false"
   [disableDayPicker]="false"
-  [multiple]="true"
   [isRequired]="false"
   [showConfirmButton]="true"
   [markToday]="true"
@@ -164,8 +149,6 @@ Inside your component.ts:
     }
 ```
 
-<br />
-
 ## @Inputs()
 
 | Property                           |  Type   |                    Default                    | Description                                                                                                      |
@@ -176,7 +159,6 @@ Inside your component.ts:
 | <b>`disableYearPicker`</b>         | boolean |                    `false`                    | When `true` the user cannot select different years, if `false` year select will be enabled                       |
 | <b>`disableMonthPicker`</b>        | boolean |                    `false`                    | When `true` the user cannot select different months, if `false` month select will be enabled                     |
 | <b>`disableDayPicker`</b>          | boolean |                    `false`                    | When `true` the user cannot select days, if `false` days select will be enabled                                  |
-| <b>`multiple`</b>                  | boolean |                    `false`                    | When `true` the user can select multiple days, if `false` only one date can be selected                          |
 | <b>`isRequired`</b>                | boolean |                    `true`                     | When `true` the confirm button will be disabled until user selects a date, if `false` the button will be enabled |
 | <b>`showConfirmButton`</b>         | boolean |                    `true`                     | When `true` the confirm button will be displayed, if `false` it will be hidden                                   |
 | <b>`markToday`</b>                 | boolean |                    `true`                     | When `true` today date will be marked(bordered), if `false` it will not be marked                                |
@@ -192,10 +174,15 @@ Inside your component.ts:
 | <b>`futureValidationMessageAr`</b> | string  | `التاريخ المحدد لا يمكن ان يكون في المستقبل!` | Arabic future validation message if `futureValidation` is set to `true`                                          |
 | <b>`pastYearsLimit`</b>            | number  |                     `90`                      | indicates for the past years number you want to allow user to select from                                        |
 | <b>`futureYearsLimit`</b>          | number  |                      `0`                      | indicates for the future years number you want to allow user to select from                                      |
+| <b>`selectionMode`</b>             | string  |                   `single`                    | Date selection mode, either `single` for single date selection or `range` for date range selection                |
+| <b>`initialDate`</b>               | Date    |                    `null`                     | Initial date to be selected/highlighted when calendar opens (for single selection mode)                           |
+| <b>`initialRangeStart`</b>         | Date    |                    `null`                     | Initial start date for range selection (for range selection mode)                                                 |
+| <b>`initialRangeEnd`</b>           | Date    |                    `null`                     | Initial end date for range selection (for range selection mode)                                                   |
+| <b>`minDate`</b>                   | Date    |                    `null`                     | Minimum selectable date - dates before this will be disabled                                                      |
+| <b>`maxDate`</b>                   | Date    |                    `null`                     | Maximum selectable date - dates after this will be disabled                                                       |
+| <b>`useMeridian`</b>               | boolean |                    `true`                     | When `true` the time picker uses 12-hour format with AM/PM, if `false` uses 24-hour format                        |
 | <b>`styles`</b>                    | object  |                     `{}`                      | Styles for the calendar look and feel                                                                            |
 | <b>`theme`</b>                     | string  |                     `Midnight Blue`           | Different skins and themes for the calendar('Ocean Breeze', 'Lavender Dreams', 'Sunset Glow', 'Midnight Blue', 'Forest Canopy', 'Rosewood Elegance', 'Icy Mint', 'Golden Sand', 'Steel Grey', 'Coral Reef'), and it has priority over styles
-
-<br />
 
 ## Styles
 
@@ -212,9 +199,15 @@ Inside your component.ts:
 | <b>`dayColor`</b>            | string |      `#000`       | Enabled days text color                                              |
 | <b>`fontFamily`</b>          | string | `Default-Regular` | Font family of the font used globally and pre defined within project |
 | <b>`borderRadius`</b>        | string |       `8px`       | Border radius of the each div and button in the calendar layout      |
-
-
-<br />
+| <b>`timePickerBgColor`</b>   | string |     `#ffffff`     | Background color for time input fields                               |
+| <b>`timePickerTextColor`</b> | string |      `#333`       | Text color for time display                                          |
+| <b>`timePickerBorderColor`</b> | string |      `#ddd`       | Border color for time inputs                                         |
+| <b>`timePickerArrowColor`</b> | string |     `#5b479c`     | Color for up/down arrow icons                                        |
+| <b>`timePickerColonColor`</b> | string |     `#5b479c`     | Color for colon separator                                            |
+| <b>`meridianBgColor`</b>     | string |     `#ffffff`     | Background color for AM/PM buttons                                   |
+| <b>`meridianTextColor`</b>   | string |      `#666`       | Text color for AM/PM buttons                                         |
+| <b>`meridianActiveBgColor`</b> | string | `rgb(0, 77, 97)` | Background color for active AM/PM button                             |
+| <b>`meridianActiveTextColor`</b> | string |     `#ffffff`     | Text color for active AM/PM button                                   |
 
 ## @Outputs()
 
@@ -224,8 +217,6 @@ Inside your component.ts:
 | `onDaySelect`   | Will be called every time when a user selects new date        |
 | `onMonthChange` | Will be called every time the month value changes             |
 | `onYearChange`  | Will be called every time the year value changes              |
-
-<br />
 
 ## Helper Functions
 
@@ -247,13 +238,9 @@ import { DateUtilitiesService } from '../_services/date-utilities.service';
 | <b>`getGregorianMonthData`</b> | Generates an array of objects of Gregorian month passed to it                                                                          |
 | <b>`getUmAlQurraMonthData`</b> | Generates an array of objects of Umm Al Qura month passed to it                                                                        |
 
-<br />
-
 ## Contributing
 
 Contributions are more than welcome!
-
-<br />
 
 ## License
 

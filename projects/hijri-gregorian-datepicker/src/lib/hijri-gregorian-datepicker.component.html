@@ -222,6 +222,11 @@
         <button
           type="button"
           class="time-arrow time-arrow-up"
+          [ngStyle]="{
+            'background-color': styles.timePickerBgColor || '#ffffff',
+            'border-color': styles.timePickerBorderColor || '#ddd',
+            color: styles.timePickerArrowColor || '#5b479c'
+          }"
           (click)="useMeridian ? incrementHour12() : incrementHour()"
           tabindex="-1"
           aria-label="Increment hour"
@@ -231,6 +236,11 @@
         <input
           type="number"
           class="time-field"
+          [ngStyle]="{
+            'background-color': styles.timePickerBgColor || '#ffffff',
+            'border-color': styles.timePickerBorderColor || '#ddd',
+            color: styles.timePickerTextColor || '#333'
+          }"
           [value]="getDisplayHour().toString().padStart(2, '0')"
           (input)="
             useMeridian
@@ -245,6 +255,11 @@
         <button
           type="button"
           class="time-arrow time-arrow-down"
+          [ngStyle]="{
+            'background-color': styles.timePickerBgColor || '#ffffff',
+            'border-color': styles.timePickerBorderColor || '#ddd',
+            color: styles.timePickerArrowColor || '#5b479c'
+          }"
           (click)="useMeridian ? decrementHour12() : decrementHour()"
           tabindex="-1"
           aria-label="Decrement hour"
@@ -254,13 +269,24 @@
       </div>
 
       <!-- Colon Separator -->
-      <span class="time-colon">:</span>
+      <span
+        class="time-colon"
+        [ngStyle]="{
+          color: styles.timePickerColonColor || '#5b479c'
+        }"
+        >:</span
+      >
 
       <!-- Minute Input with Arrows -->
       <div class="time-input-container">
         <button
           type="button"
           class="time-arrow time-arrow-up"
+          [ngStyle]="{
+            'background-color': styles.timePickerBgColor || '#ffffff',
+            'border-color': styles.timePickerBorderColor || '#ddd',
+            color: styles.timePickerArrowColor || '#5b479c'
+          }"
           (click)="incrementMinute()"
           tabindex="-1"
           aria-label="Increment minute"
@@ -270,6 +296,11 @@
         <input
           type="number"
           class="time-field"
+          [ngStyle]="{
+            'background-color': styles.timePickerBgColor || '#ffffff',
+            'border-color': styles.timePickerBorderColor || '#ddd',
+            color: styles.timePickerTextColor || '#333'
+          }"
           [value]="selectedTime.minute.toString().padStart(2, '0')"
           (input)="onMinuteInputChange($event)"
           (keydown)="onTimeKeydown($event, 'minute')"
@@ -280,6 +311,11 @@
         <button
           type="button"
           class="time-arrow time-arrow-down"
+          [ngStyle]="{
+            'background-color': styles.timePickerBgColor || '#ffffff',
+            'border-color': styles.timePickerBorderColor || '#ddd',
+            color: styles.timePickerArrowColor || '#5b479c'
+          }"
           (click)="decrementMinute()"
           tabindex="-1"
           aria-label="Decrement minute"
@@ -295,6 +331,21 @@
           type="button"
           class="meridian-btn"
           [class.active]="meridian === 'AM'"
+          [ngStyle]="
+            meridian === 'AM'
+              ? {
+                  'background-color':
+                    styles.meridianActiveBgColor || 'rgb(0, 77, 97)',
+                  'border-color':
+                    styles.meridianActiveBgColor || 'rgb(0, 77, 97)',
+                  color: styles.meridianActiveTextColor || '#ffffff'
+                }
+              : {
+                  'background-color': styles.meridianBgColor || '#ffffff',
+                  'border-color': styles.timePickerBorderColor || '#ddd',
+                  color: styles.meridianTextColor || '#666'
+                }
+          "
           (click)="meridian !== 'AM' && toggleMeridian()"
           aria-label="Select AM"
         >
@@ -304,6 +355,21 @@
           type="button"
           class="meridian-btn"
           [class.active]="meridian === 'PM'"
+          [ngStyle]="
+            meridian === 'PM'
+              ? {
+                  'background-color':
+                    styles.meridianActiveBgColor || 'rgb(0, 77, 97)',
+                  'border-color':
+                    styles.meridianActiveBgColor || 'rgb(0, 77, 97)',
+                  color: styles.meridianActiveTextColor || '#ffffff'
+                }
+              : {
+                  'background-color': styles.meridianBgColor || '#ffffff',
+                  'border-color': styles.timePickerBorderColor || '#ddd',
+                  color: styles.meridianTextColor || '#666'
+                }
+          "
           (click)="meridian !== 'PM' && toggleMeridian()"
           aria-label="Select PM"
         >

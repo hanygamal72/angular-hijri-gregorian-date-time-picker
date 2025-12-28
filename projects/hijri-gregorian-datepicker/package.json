@@ -4,12 +4,12 @@
   "description": "Angular Hijri Gregorian Date Time Picker with beautiful custom selects, time picker, range selection, and bilingual typography support",
   "license": "MIT",
   "peerDependencies": {
-    "@angular/common": "^15.2.9",
-    "@angular/core": "^15.2.9",
-    "@angular/forms": "^15.2.9"
+    "@angular/common": "^20.0.0",
+    "@angular/core": "^20.0.0",
+    "@angular/forms": "^20.0.0"
   },
   "dependencies": {
-    "tslib": "^2.1.0"
+    "tslib": "^2.8.0"
   },
   "author": {
     "name": "Hany Gamal",
