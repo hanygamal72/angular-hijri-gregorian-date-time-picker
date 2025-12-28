@@ -22,6 +22,16 @@ export class AppComponent {
     dayNameColor: '#116466',
     fontFamily: 'Default-Regular',
     borderRadius: '8px',
+    // Time picker styles
+    timePickerBgColor: '#ffffff',
+    timePickerTextColor: '#2c3531',
+    timePickerBorderColor: '#116466',
+    timePickerArrowColor: '#116466',
+    timePickerColonColor: '#116466',
+    meridianBgColor: '#ffffff',
+    meridianTextColor: '#2c3531',
+    meridianActiveBgColor: '#116466',
+    meridianActiveTextColor: '#e3f4f4',
   };
   mode = 'greg';
 
