@@ -1,6 +1,6 @@
 {
   "name": "angular-hijri-gregorian-date-time-picker",
-  "version": "1.5.01",
+  "version": "1.5.02",
   "description": "Angular Hijri Gregorian Date Time Picker with beautiful custom selects, time picker, range selection, and bilingual typography support",
   "license": "MIT",
   "peerDependencies": {

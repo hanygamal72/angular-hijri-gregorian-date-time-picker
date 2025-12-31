@@ -121,6 +121,12 @@ export class HijriGregorianDatetimeInputComponent
   /** Custom styles configuration for calendar */
   @Input() styles?: stylesConfig = {};
 
+  /** Text label for today's date section */
+  @Input() todaysDateText: string = "Today's Date";
+
+  /** Text label for Hijri date section */
+  @Input() ummAlQuraDateText: string = 'Hijri Date';
+
   // ============================================================
   // OUTPUTS
   // ============================================================
