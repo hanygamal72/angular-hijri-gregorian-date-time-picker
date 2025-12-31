@@ -1,0 +1,37 @@
+/**
+ * Global Styles for Angular Hijri-Gregorian Datepicker
+ * 
+ * This file should be imported in your angular.json or styles.scss:
+ * @import 'angular-hijri-gregorian-date-time-picker/styles/global';
+ * 
+ * Or in angular.json:
+ * "styles": [
+ *   "node_modules/angular-hijri-gregorian-date-time-picker/styles/global.css"
+ * ]
+ */
+
+/* ============================================
+   Remix Icon - Required for time picker arrows
+   ============================================ */
+@import url("https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css");
+
+/* ============================================
+   Custom Font Face - Default Regular
+   ============================================ */
+@font-face {
+  font-family: "Default-Regular";
+  src: url("../assets/fonts/Default-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============================================
+   Optional: Google Fonts for Better Typography
+   ============================================
+   Uncomment if you want to use Google Fonts
+   ============================================ */
+/*
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Zain:wght@200;300;400;700;800;900&display=swap");
+*/
