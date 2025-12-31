@@ -127,6 +127,12 @@ export class HijriGregorianDatetimeInputComponent
   /** Text label for Hijri date section */
   @Input() ummAlQuraDateText: string = 'Hijri Date';
 
+  /** Label for AM in 12-hour format */
+  @Input() amLabel: string = 'AM';
+
+  /** Label for PM in 12-hour format */
+  @Input() pmLabel: string = 'PM';
+
   // ============================================================
   // OUTPUTS
   // ============================================================

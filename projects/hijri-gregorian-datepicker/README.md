@@ -25,8 +25,9 @@
 - **⏰ Time Picker** - Full time selection with 12-hour/24-hour format support
 - **📅 Range Selection** - Select date ranges with start and end dates
 - **🎨 Beautiful Custom Selects** - Modern dropdown menus with smooth animations and Remix Icons
-- **🌐 Bilingual Typography** - Google Fonts integration (Poppins for English, Zain for Arabic)
+- **🌐 Bilingual Typography** - Custom Default-Regular font for consistent Arabic and English text
 - **🎯 Initial Date Support** - Pre-select dates/ranges when calendar loads (`initialDate`, `initialRangeStart`, `initialRangeEnd`)
+- **🌍 Translatable Labels** - Full i18n support including AM/PM labels (`amLabel`, `pmLabel`)
 
 ### 🚀 UI/UX Enhancements
 - Redesigned year/month selectors with professional styling
@@ -52,7 +53,7 @@ However, the Gregorian calendar is the calendar used in most of the world, and i
 ## Features
 
 - Can be used as a calendar or a datepicker with **time selection**.
-- **RTL** and **LTR** support with **bilingual typography** (Poppins for English, Zain for Arabic)
+- **RTL** and **LTR** support with **bilingual typography** using Default-Regular font
 - Easy to switch between **Gregorian** and **Hijri** calendars.
 - Ability to specify the default calendar type either **Gregorian** or **Hijri**.
 - Converting dates when changing type of calendar.
@@ -61,6 +62,7 @@ However, the Gregorian calendar is the calendar used in most of the world, and i
 - Very easy to customize with **beautiful custom select dropdowns**.
 - Can select **Single**, **Multiple** dates, or **Date Ranges**.
 - **Time picker** with 12-hour/24-hour format support.
+- **Translatable labels** including AM/PM for 12-hour format.
 - **Initial date** and **initial range** support for pre-selecting dates.
 - **Event listeners** for all datepicker events.
 - Can customize future and past years number.
@@ -183,6 +185,64 @@ Inside your component.ts:
     }
 ```
 
+---
+
+## 🌍 Internationalization (i18n) Examples
+
+### Translatable AM/PM Labels
+
+The component supports full translation of AM/PM labels for 12-hour format:
+
+**English (Default):**
+```html
+<hijri-gregorian-datetime-input
+  [enableTime]="true"
+  [useMeridian]="true"
+  [amLabel]="'AM'"
+  [pmLabel]="'PM'"
+  [locale]="'en'"
+  [dir]="'ltr'"
+></hijri-gregorian-datetime-input>
+```
+
+**Arabic:**
+```html
+<hijri-gregorian-datetime-input
+  [enableTime]="true"
+  [useMeridian]="true"
+  [amLabel]="'ص'"
+  [pmLabel]="'م'"
+  [locale]="'ar'"
+  [dir]="'rtl'"
+  [todaysDateText]="'تاريخ اليوم'"
+  [ummAlQuraDateText]="'التاريخ الهجري'"
+></hijri-gregorian-datetime-input>
+```
+
+**Custom Labels:**
+```html
+<hijri-gregorian-datetime-input
+  [enableTime]="true"
+  [useMeridian]="true"
+  [amLabel]="'Morning'"
+  [pmLabel]="'Evening'"
+></hijri-gregorian-datetime-input>
+```
+
+**With Calendar Component:**
+```html
+<hijri-gregorian-datepicker
+  [enableTime]="true"
+  [useMeridian]="true"
+  [amLabel]="'صباحاً'"
+  [pmLabel]="'مساءً'"
+  [locale]="'ar'"
+  [dir]="'rtl'"
+></hijri-gregorian-datepicker>
+```
+
+---
+
 ## @Inputs()
 
 ### DateTime Input Component
@@ -200,6 +260,8 @@ Inside your component.ts:
 | <b>`dir`</b>                       | string  |                     `ltr`                     | Layout direction, either `ltr` or `rtl`                                                                          |
 | <b>`selectionMode`</b>             | string  |                   `single`                    | Date selection mode, either `single` or `range`                                                                  |
 | <b>`useMeridian`</b>               | boolean |                    `false`                    | When `true` uses 12-hour format with AM/PM, if `false` uses 24-hour format                                       |
+| <b>`amLabel`</b>                   | string  |                     `AM`                      | Label for AM in 12-hour format (translatable)                                                                    |
+| <b>`pmLabel`</b>                   | string  |                     `PM`                      | Label for PM in 12-hour format (translatable)                                                                    |
 | <b>`styles`</b>                    | object  |                     `{}`                      | Styles configuration object                                                                                      |
 | <b>`theme`</b>                     | string  |                     `''`                      | Theme name (overrides styles)                                                                                    |
 
@@ -227,6 +289,8 @@ Inside your component.ts:
 | <b>`submitTextButton`</b>          | string  |                   `Confirm`                   | Confirm button text value                                                                                        |
 | <b>`todaysDateText`</b>            | string  |               `Todays\'s Date`                | Today's date text in `todaysDateSection`                                                                         |
 | <b>`ummAlQuraDateText`</b>         | string  |               `التاريخ الهجرى`                | Text next to checkbox to toggle date `todaysDateSection`                                                         |
+| <b>`amLabel`</b>                   | string  |                     `AM`                      | Label for AM in 12-hour format (translatable, e.g., 'ص' for Arabic)                                              |
+| <b>`pmLabel`</b>                   | string  |                     `PM`                      | Label for PM in 12-hour format (translatable, e.g., 'م' for Arabic)                                              |
 | <b>`yearSelectLabel`</b>           | string  |                    `Year`                     | Label of the year select option                                                                                  |
 | <b>`monthSelectLabel`</b>          | string  |                    `Month`                    | Label of the month select option                                                                                 |
 | <b>`futureValidationMessageEn`</b> | string  |   `Selected date cannot be in the future!`    | English future validation message if `futureValidation` is set to `true`                                         |

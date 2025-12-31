@@ -34,12 +34,7 @@
       'border-radius': styles.borderRadius
     }"
   >
-    <div
-      class="text-info"
-      [ngClass]="{
-        order: dir == 'rtl'
-      }"
-    >
+    <div class="text-info">
       <p>{{ todaysDateText }}</p>
     </div>
 
@@ -166,7 +161,9 @@
             [ngClass]="{
               'todays-date': checkTodaysDate(day),
               'selected-date': day?.selected == true,
-              'disabled-day': isDateDisabled(day) || (checkFutureValidation(day) && futureValidation),
+              'disabled-day':
+                isDateDisabled(day) ||
+                (checkFutureValidation(day) && futureValidation),
               'range-start': isRangeStart(day),
               'range-end': isRangeEnd(day),
               'in-range': isInRange(day)
@@ -177,10 +174,18 @@
                   ? '1px solid ' + styles.primaryColor
                   : '',
               'background-color':
-                (day?.selected == true || isRangeStart(day) || isRangeEnd(day)) ? styles.primaryColor :
-                isInRange(day) ? (styles.primaryColor + '33') : '',
+                day?.selected == true || isRangeStart(day) || isRangeEnd(day)
+                  ? styles.primaryColor
+                  : isInRange(day)
+                  ? styles.primaryColor + '33'
+                  : '',
               color:
-                (day?.selected == true || isRangeStart(day) || isRangeEnd(day) || isInRange(day) ? styles.todaysDateTextColor : '') ||
+                (day?.selected == true ||
+                isRangeStart(day) ||
+                isRangeEnd(day) ||
+                isInRange(day)
+                  ? styles.todaysDateTextColor
+                  : '') ||
                 (checkFutureValidation(day) && futureValidation
                   ? styles.disabledDayColor
                   : '') ||
@@ -352,9 +357,9 @@
                 }
           "
           (click)="meridian !== 'AM' && toggleMeridian()"
-          aria-label="Select AM"
+          [attr.aria-label]="'Select ' + amLabel"
         >
-          AM
+          {{ amLabel }}
         </button>
         <button
           type="button"
@@ -376,9 +381,9 @@
                 }
           "
           (click)="meridian !== 'PM' && toggleMeridian()"
-          aria-label="Select PM"
+          [attr.aria-label]="'Select ' + pmLabel"
         >
-          PM
+          {{ pmLabel }}
         </button>
       </div>
     </div>

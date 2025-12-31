@@ -4,12 +4,13 @@
    Bilingual Typography System
    ============================================
    English: Poppins (Latin script)
-   Arabic: Zain (Arabic script)
+   Arabic: Default-Regular (Arabic script)
 ============================================ */
 
 /* Import Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Zain:wght@200;300;400;700;800;900&display=swap");
+/* Using Default-Regular for Arabic instead of Zain */
+/* @import url("https://fonts.googleapis.com/css2?family=Zain:wght@200;300;400;700;800;900&display=swap"); */
 
 /* Import Remix Icon */
 @import url("https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css");
@@ -39,8 +40,9 @@ div,
 span,
 select,
 p,
-option {
-  font-family: "Zain", "Arabic Typesetting", "Tahoma", sans-serif !important;
+option,
+button {
+  font-family: "Default-Regular", sans-serif !important;
 
   /* Optimal Arabic text rendering */
   letter-spacing: 0;
@@ -70,7 +72,7 @@ option {
   }
 }
 
-/* Arabic font weights (Zain - adjusted for better readability) */
+/* Arabic font weights (Default-Regular - adjusted for better readability) */
 [dir="rtl"],
 [lang="ar"] {
   .font-light {

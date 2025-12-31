@@ -109,6 +109,8 @@ export class MyComponent implements OnInit {
 | `markToday` | `boolean` | `true` | Highlight today's date |
 | `todaysDateSection` | `boolean` | `true` | Show today's date section |
 | `useMeridian` | `boolean` | `false` | Use 12-hour format with AM/PM |
+| `amLabel` | `string` | `'AM'` | Label for AM in 12-hour format (translatable) |
+| `pmLabel` | `string` | `'PM'` | Label for PM in 12-hour format (translatable) |
 | `selectionMode` | `'single' \| 'range'` | `'single'` | Single date or range selection |
 | `inputClass` | `string` | `''` | Custom CSS class for input |
 | `dropdownClass` | `string` | `''` | Custom CSS class for dropdown |
@@ -169,7 +171,44 @@ export class AppComponent {
 }
 ```
 
-### Example 3: Hijri Calendar Mode
+### Example 3: Translatable AM/PM Labels (i18n)
+
+**English (Default):**
+```html
+<hijri-gregorian-datetime-input
+  [enableTime]="true"
+  [useMeridian]="true"
+  [amLabel]="'AM'"
+  [pmLabel]="'PM'"
+  [placeholder]="'Select date and time'">
+</hijri-gregorian-datetime-input>
+```
+
+**Arabic:**
+```html
+<hijri-gregorian-datetime-input
+  [enableTime]="true"
+  [useMeridian]="true"
+  [amLabel]="'ص'"
+  [pmLabel]="'م'"
+  [locale]="'ar'"
+  [dir]="'rtl'"
+  [placeholder]="'اختر التاريخ والوقت'">
+</hijri-gregorian-datetime-input>
+```
+
+**Custom Labels:**
+```html
+<hijri-gregorian-datetime-input
+  [enableTime]="true"
+  [useMeridian]="true"
+  [amLabel]="'Morning'"
+  [pmLabel]="'Evening'"
+  [placeholder]="'Select time'">
+</hijri-gregorian-datetime-input>
+```
+
+### Example 4: Hijri Calendar Mode
 
 ```html
 <hijri-gregorian-datetime-input

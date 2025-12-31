@@ -23,8 +23,9 @@
 - **⏰ Time Picker** - Full time selection with 12-hour/24-hour format support
 - **📅 Range Selection** - Select date ranges with start and end dates
 - **🎨 Beautiful Custom Selects** - Modern dropdown menus with smooth animations
-- **🌐 Bilingual Typography** - Google Fonts integration (Poppins for English, Zain for Arabic)
+- **🌐 Bilingual Typography** - Custom Default-Regular font for consistent Arabic and English text
 - **🎯 Initial Date Support** - Pre-select dates when calendar loads
+- **🌍 Translatable Labels** - Full i18n support including AM/PM labels
 - **🎭 Remix Icons** - Modern icon integration throughout the UI
 
 ### 🚀 Enhancements
@@ -59,7 +60,7 @@ Online demo can be found:
 ## Features
 
 - Can be used as a calendar or a datepicker.
-- **RTL** and **LTR** support with **bilingual typography** (Poppins for English, Zain for Arabic)
+- **RTL** and **LTR** support with **bilingual typography** using Default-Regular font
 - Easy to switch between **Gregorian** and **Hijri** calendars.
 - Ability to specify the default calendar type either **Gregorian** or **Hijri**.
 - Converting dates when changing type of calendar.
@@ -68,6 +69,7 @@ Online demo can be found:
 - Very easy to customize with **beautiful custom select dropdowns**.
 - Can select **Single**, **Multiple** dates, or **Date Ranges**.
 - **Time picker** with 12-hour/24-hour format support.
+- **Translatable labels** including AM/PM for 12-hour format.
 - **Initial date** and **initial range** support for pre-selecting dates.
 - **Event listeners** for all datepicker events.
 - Can customize future and past years number.

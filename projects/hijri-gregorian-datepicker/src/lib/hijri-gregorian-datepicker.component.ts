@@ -44,6 +44,8 @@ export class HijriGregorianDatepickerComponent
   @Input() ummAlQuraDateText: string = 'Hijri Date';
   @Input() monthSelectLabel: string = 'Month';
   @Input() yearSelectLabel: string = 'Year';
+  @Input() amLabel: string = 'AM'; // Label for AM in 12-hour format
+  @Input() pmLabel: string = 'PM'; // Label for PM in 12-hour format
   @Input() futureValidationMessageEn: string;
   @Input() futureValidationMessageAr: string;
   @Input() theme?: string = '';

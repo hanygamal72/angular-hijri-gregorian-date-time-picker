@@ -2,6 +2,42 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.1] - 2025-12-31
+
+### 🌍 Internationalization Enhancement
+
+#### Translatable AM/PM Labels
+- **`amLabel` input** - Customizable label for AM in 12-hour format (default: 'AM')
+- **`pmLabel` input** - Customizable label for PM in 12-hour format (default: 'PM')
+- **Full i18n support** - Can use any language labels (e.g., 'ص' and 'م' for Arabic)
+- **Accessible aria-labels** - Dynamic labels for screen readers
+- **Available in both components** - `hijri-gregorian-datepicker` and `hijri-gregorian-datetime-input`
+
+**Example Usage:**
+```html
+<!-- Arabic -->
+<hijri-gregorian-datetime-input
+  [useMeridian]="true"
+  [amLabel]="'ص'"
+  [pmLabel]="'م'"
+></hijri-gregorian-datetime-input>
+
+<!-- Custom -->
+<hijri-gregorian-datepicker
+  [useMeridian]="true"
+  [amLabel]="'Morning'"
+  [pmLabel]="'Evening'"
+></hijri-gregorian-datepicker>
+```
+
+#### Typography Update
+- **Replaced Google Fonts** with custom Default-Regular font for both Arabic and English
+- **Consistent font rendering** across all languages
+- **Reduced external dependencies** - no more Google Fonts CDN calls
+- **Improved RTL support** with unified font system
+
+---
+
 ## [1.5.0] - 2025-12-25
 
 ### 🎉 Major Features Added
