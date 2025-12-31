@@ -8,7 +8,7 @@
   4. Action buttons (Confirm/Cancel)
 -->
 
-<div class="datetime-input-wrapper">
+<div class="datetime-input-wrapper" [attr.dir]="dir">
   <!-- INPUT FIELD -->
   <div class="input-container">
     <input
@@ -16,6 +16,7 @@
       type="text"
       class="datetime-input"
       [class]="'datetime-input ' + inputClass"
+      [class.rtl-input]="dir === 'rtl'"
       [value]="displayValue"
       [placeholder]="placeholder"
       [disabled]="disabled"
@@ -30,6 +31,7 @@
     <!-- Calendar Icon -->
     <span
       class="input-icon"
+      [class.rtl-icon]="dir === 'rtl'"
       (click)="toggleDropdown()"
       [class.disabled]="disabled"
     >
@@ -53,6 +55,7 @@
       *ngIf="displayValue && !disabled"
       type="button"
       class="clear-button"
+      [class.rtl-clear]="dir === 'rtl'"
       (click)="clearValue(); $event.stopPropagation()"
       aria-label="Clear value"
     >

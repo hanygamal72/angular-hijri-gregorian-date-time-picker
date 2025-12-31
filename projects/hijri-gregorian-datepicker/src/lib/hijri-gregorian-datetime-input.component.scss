@@ -260,21 +260,25 @@
   // RTL SUPPORT
   // ============================================================
 
+  // RTL input padding (icons on left instead of right)
+  .datetime-input.rtl-input {
+    padding: 0.625rem 0.875rem 0.625rem 3rem; // 10px 14px 10px 48px
+  }
+
+  // Calendar icon positioning for RTL
+  .input-icon.rtl-icon {
+    right: auto;
+    left: 0.875rem; // 14px from left
+  }
+
+  // Clear button positioning for RTL
+  .clear-button.rtl-clear {
+    right: auto;
+    left: 2.75rem; // 44px from left (space for calendar icon)
+  }
+
+  // Action buttons alignment for RTL
   &[dir="rtl"] {
-    .datetime-input {
-      padding: 0.625rem 0.875rem 0.625rem 3rem;
-    }
-
-    .input-icon {
-      right: auto;
-      left: 0.875rem;
-    }
-
-    .clear-button {
-      right: auto;
-      left: 2.75rem;
-    }
-
     .action-buttons {
       justify-content: flex-start;
     }
