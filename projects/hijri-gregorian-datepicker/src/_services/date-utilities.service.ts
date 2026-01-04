@@ -473,4 +473,48 @@ export class DateUtilitiesService {
 
     return this.isDateInRange(dayInfo.gD, minDateStr, maxDateStr);
   }
+
+  transformDate(dateString: string) {
+    const date = new Date(dateString);
+    // Gregorian date (DD/MM/YYYY)
+    const gD = `${String(date.getDate()).padStart(2, '0')}/${String(
+      date.getMonth() + 1
+    ).padStart(2, '0')}/${date.getFullYear()}`;
+
+    // Day name
+    const dN = date.toLocaleDateString('en-US', { weekday: 'long' });
+
+    // Time
+    const time = {
+      hour: date.getHours(),
+      minute: date.getMinutes(),
+    };
+
+    // Hijri (Umm Al-Qura)
+    const hijriFormatter = new Intl.DateTimeFormat(
+      'ar-SA-u-ca-islamic-umalqura-nu-latn',
+      {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      }
+    );
+
+    const hijriParts = hijriFormatter.formatToParts(date);
+
+    const day = hijriParts.find((p) => p.type === 'day')?.value;
+    const month = hijriParts.find((p) => p.type === 'month')?.value;
+    const year = hijriParts.find((p) => p.type === 'year')?.value;
+
+    const uD = `${day}/${month}/${year}`;
+
+    return {
+      gD,
+      uD,
+      dN,
+      uC: 0,
+      selected: true,
+      time,
+    };
+  }
 }

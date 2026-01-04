@@ -10,22 +10,24 @@
       <!-- Basic Example -->
       <div class="demo-card">
         <h3>Basic Input with Time</h3>
-        <hijri-gregorian-datetime-input
-          [(ngModel)]="inputSelectedDate"
-          [placeholder]="'Select date and time'"
-          [enableTime]="true"
-          [useMeridian]="false"
-          (dateSelected)="onInputDateSelected($event)"
-          [styles]="stylesConfig"
-          [todaysDateText]="'Today\'s Date'"
-          [ummAlQuraDateText]="'Hijri Date'"
-          [dir]="'ltr'"
-          [locale]="'en'"
-          [useMeridian]="true"
-          [amLabel]="'AM'"
-          [pmLabel]="'PM'"
-        >
-        </hijri-gregorian-datetime-input>
+        <form [formGroup]="form">
+          <hijri-gregorian-datetime-input
+            formControlName="dateTimeInput"
+            [placeholder]="'Select date and time'"
+            [enableTime]="true"
+            (dateSelected)="onInputDateSelected($event)"
+            [styles]="stylesConfig"
+            [todaysDateText]="'Today\'s Date'"
+            [ummAlQuraDateText]="'Hijri Date'"
+            [dir]="'rtl'"
+            [locale]="'ar'"
+            [useMeridian]="true"
+            [amLabel]="'ص'"
+            [pmLabel]="'م'"
+            mode="ummAlQura"
+          >
+          </hijri-gregorian-datetime-input>
+        </form>
       </div>
 
       <!-- With Validation -->

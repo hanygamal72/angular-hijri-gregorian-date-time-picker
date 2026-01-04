@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { DateUtilitiesService } from 'projects/hijri-gregorian-datepicker/src/_services/date-utilities.service';
 import { DayInfo } from 'projects/hijri-gregorian-datepicker/src/_interfaces/calendar-model';
 import { stylesConfig } from 'projects/hijri-gregorian-datepicker/src/_interfaces/styles-config.model';
 
@@ -60,8 +62,13 @@ export class AppComponent {
   initialRangeEnd = new Date(2025, 11, 20, 17, 30); // Dec 20, 2025 at 5:30 PM
 
   // ==================================================
+  form = new FormGroup({
+    dateTimeInput: new FormControl(
+      this.dateUtilitiesService.transformDate('2025-06-15T14:30:00')
+    ),
+  });
 
-  constructor() {}
+  constructor(private dateUtilitiesService: DateUtilitiesService) {}
 
   onSubmit(ev: any) {
     console.log('📅 On Submit:', ev);
