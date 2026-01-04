@@ -121,7 +121,7 @@ export class MyComponent {
 ```html
 <hijri-gregorian-datepicker
   [enableTime]="true"
-  [multiple]="true"
+  [selectionMode]="'multiple'"
   (onSubmit)="handleMultipleSubmit($event)">
 </hijri-gregorian-datepicker>
 ```

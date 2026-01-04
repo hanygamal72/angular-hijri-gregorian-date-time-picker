@@ -31,11 +31,9 @@ export class HijriGregorianDatepickerComponent
   @Input() disableYearPicker: boolean = false;
   @Input() disableMonthPicker: boolean = false;
   @Input() disableDayPicker: boolean = false;
-  @Input() multiple: boolean = false;
   @Input() isRequired: boolean = false;
   @Input() showConfirmButton: boolean = true;
   @Input() futureValidationMessage: boolean = false;
-  @Input() arabicLayout: boolean = false;
   @Input() mode: string = 'greg';
   @Input() dir: string = 'ltr';
   @Input() locale: string = 'en';
@@ -68,8 +66,8 @@ export class HijriGregorianDatepickerComponent
   @Input() useMeridian: boolean = false; // Enable 12-hour format with AM/PM
 
   // BACKWARD COMPATIBILITY: Default to 'single' (existing behavior)
-  // 'range' enables range selection mode (first click = start, second click = end)
-  @Input() selectionMode: 'single' | 'range' = 'single';
+  // 'multiple' enables multi-date selection, 'range' enables range selection (start to end)
+  @Input() selectionMode: 'single' | 'multiple' | 'range' = 'single';
   /// Outputs
   @Output() onSubmit = new EventEmitter<object>();
   @Output() onDaySelect = new EventEmitter<object>();
@@ -111,7 +109,6 @@ export class HijriGregorianDatepickerComponent
   months: any[];
   weekdaysEn = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   weekdaysAr = ['سبت', 'جمعة', 'خميس', 'أربعاء', 'ثلاثاء', 'اثنين', 'أحد'];
-  // weekdaysAr = ['س', 'ج', 'خ', 'أر', 'ث', 'إث', 'أح'];
   todaysDate: TodayDate = {};
   selectedDay: DayInfo;
   periodForm: UntypedFormGroup;
@@ -373,7 +370,7 @@ export class HijriGregorianDatepickerComponent
             // Set as selectedDay based on selection mode
             if (this.selectionMode === 'range') {
               this.rangeStart = day;
-            } else if (this.multiple) {
+            } else if (this.selectionMode === 'multiple') {
               this.multipleSelectedDates = [day];
             } else {
               this.selectedDay = day;
@@ -648,11 +645,11 @@ export class HijriGregorianDatepickerComponent
       this.multipleSelectedDates = this.multipleSelectedDates.filter(
         (day) => day !== dayInfo
       );
-      if (!this.multiple) {
+      if (this.selectionMode !== 'multiple') {
         this.selectedDay = undefined;
       }
     } else {
-      if (!this.multiple) {
+      if (this.selectionMode !== 'multiple') {
         this.weeks.forEach((week: any) => {
           week.forEach((day: DayInfo) => {
             day.selected = false;
@@ -789,7 +786,7 @@ export class HijriGregorianDatepickerComponent
     }
 
     // BACKWARD COMPATIBILITY: Original behavior for multiple/single selection
-    if (this.multiple) {
+    if (this.selectionMode === 'multiple') {
       // For multiple dates, attach time to each if enableTime is active
       if (this.enableTime) {
         this.multipleSelectedDates.forEach((day) => {

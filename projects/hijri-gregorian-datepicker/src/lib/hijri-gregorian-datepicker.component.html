@@ -47,7 +47,6 @@
       }"
     >
       <p *ngIf="mode == 'ummAlQura'">
-        <!-- {{todaysDate.ummAlQura}} -->
         {{
           locale == "ar"
             ? _dateUtilsService.convertDateNumerals(todaysDate.ummAlQura, "ar")
@@ -395,8 +394,8 @@
       class="confirm-btn"
       [disabled]="
         isRequired &&
-        ((!selectedDay && !multiple) ||
-          (!multipleSelectedDates.length && multiple))
+        ((!selectedDay && selectionMode !== 'multiple') ||
+          (!multipleSelectedDates.length && selectionMode === 'multiple'))
       "
       (click)="onConfirmClicked()"
       *ngIf="showConfirmButton"

@@ -88,7 +88,7 @@
 
       label {
         margin-right: 10px;
-        font-family: "Poppins", sans-serif;
+
         font-weight: 500;
 
         [dir="rtl"] &,
@@ -168,7 +168,7 @@ select:focus {
   [dir="rtl"] & .week-days {
     flex-direction: row-reverse !important;
   }
-  
+
   [dir="rtl"] & .week-days .week-day {
     font-weight: 700;
     letter-spacing: 0;
@@ -209,10 +209,9 @@ select:focus {
     padding: 10px;
     border-radius: 5px;
     transition: all 0.2s ease;
-    
+
     span {
       font-size: 14px;
-      font-family: "Poppins", sans-serif;
       font-weight: 500;
 
       [dir="rtl"] &,
@@ -220,13 +219,13 @@ select:focus {
         font-weight: 400;
       }
     }
-    
+
     // Disabled day visual state
     &.disabled-day {
       opacity: 0.4;
       cursor: not-allowed !important;
       pointer-events: none;
-      
+
       &:hover {
         transform: none;
         background-color: transparent !important;
@@ -236,7 +235,6 @@ select:focus {
 
   #ummAlQura-day {
     font-size: 11px;
-    font-family: "Poppins", sans-serif;
     font-weight: 500;
 
     [dir="rtl"] &,
@@ -255,14 +253,14 @@ select:focus {
     font-weight: 600 !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-  
+
   // Range selection styles
   .range-start,
   .range-end {
     font-weight: 600 !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-  
+
   .in-range {
     font-weight: 500;
   }
@@ -309,7 +307,7 @@ select:focus {
   label {
     text-align: right;
     font-size: 19px;
-    font-family: "Poppins", sans-serif;
+
     font-weight: 500;
 
     [dir="rtl"] &,
@@ -368,7 +366,7 @@ select:focus {
   color: #eb445a;
   margin-top: 8px;
   font-size: 13px;
-  font-family: "Poppins", sans-serif;
+
   font-weight: 500;
 
   [dir="rtl"] &,
@@ -388,7 +386,6 @@ select:focus {
   padding: 10px;
   background: transparent;
   border-radius: 0;
-  font-family: "Poppins", sans-serif;
 
   .time-picker-wrapper {
     display: flex;
@@ -427,9 +424,6 @@ select:focus {
         }
 
         &:hover {
-          // background: #f8f9fa;
-          // border-color: #5b479c;
-
           i {
             opacity: 1;
           }
@@ -441,8 +435,6 @@ select:focus {
 
         &:focus {
           outline: none;
-          // border-color: #5b479c;
-          // box-shadow: 0 0 0 2px rgba(91, 71, 156, 0.1);
         }
 
         &.time-arrow-up {
@@ -475,7 +467,7 @@ select:focus {
 
         [dir="rtl"] &,
         [lang="ar"] & {
-          font-weight: 700;
+          font-weight: 600;
         }
 
         // Remove spinner buttons
@@ -488,15 +480,8 @@ select:focus {
           margin: 0;
         }
 
-        &:hover {
-          // background: #f8f9fa;
-          // border-color: #5b479c;
-        }
-
         &:focus {
           outline: none;
-          // background: #ffffff;
-          // border-color: #5b479c;
           box-shadow: 0 0 0 2px rgba(91, 71, 156, 0.1);
           z-index: 1;
         }
@@ -511,7 +496,6 @@ select:focus {
       padding: 0 4px;
       user-select: none;
       line-height: 1;
-      font-family: "Poppins", sans-serif;
 
       [dir="rtl"] &,
       [lang="ar"] & {
@@ -538,7 +522,6 @@ select:focus {
         padding: 0;
         cursor: pointer;
         transition: all 0.2s ease;
-        font-family: "Poppins", sans-serif;
 
         [dir="rtl"] &,
         [lang="ar"] & {
@@ -573,14 +556,9 @@ select:focus {
 
         &.active {
           background: rgb(0, 77, 97);
-          border-color:rgb(0, 77, 97);
+          border-color: rgb(0, 77, 97);
           color: #ffffff;
           cursor: default;
-
-          // &:hover {
-          //   background: linear-gradient(135deg, #00ace4 0%, #0099cc 100%);
-          //   border-color: #00ace4;
-          // }
         }
       }
     }

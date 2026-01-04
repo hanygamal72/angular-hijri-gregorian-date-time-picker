@@ -9,8 +9,7 @@ export class DateUtilitiesService {
   public calendarData: Data;
 
   constructor() {
-    this.calendarData = (datesDictionary as any)['default']; //prod
-    // this.calendarData = datesDictionary; //debug
+    this.calendarData = (datesDictionary as any)['default'];
   }
 
   parseDate(dateStr: string): Date | null {

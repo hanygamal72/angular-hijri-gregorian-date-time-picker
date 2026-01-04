@@ -109,8 +109,8 @@ export class HijriGregorianDatetimeInputComponent
   /** Enable 12-hour format with AM/PM */
   @Input() useMeridian: boolean = false;
 
-  /** Selection mode: 'single' or 'range' */
-  @Input() selectionMode: 'single' | 'range' = 'single';
+  /** Selection mode: 'single', 'multiple', or 'range' */
+  @Input() selectionMode: 'single' | 'multiple' | 'range' = 'single';
 
   /** Custom CSS class for input field */
   @Input() inputClass: string = '';
@@ -132,6 +132,45 @@ export class HijriGregorianDatetimeInputComponent
 
   /** Label for PM in 12-hour format */
   @Input() pmLabel: string = 'PM';
+
+  /** Allow user to toggle between calendar modes (Gregorian/Hijri) */
+  @Input() canChangeMode: boolean = true;
+
+  /** Disable year picker dropdown */
+  @Input() disableYearPicker: boolean = false;
+
+  /** Disable month picker dropdown */
+  @Input() disableMonthPicker: boolean = false;
+
+  /** Disable day selection in calendar */
+  @Input() disableDayPicker: boolean = false;
+
+  /** Show future validation message when selecting future dates */
+  @Input() futureValidationMessage: boolean = false;
+
+  /** Label for year select dropdown */
+  @Input() yearSelectLabel: string = 'Year';
+
+  /** Label for month select dropdown */
+  @Input() monthSelectLabel: string = 'Month';
+
+  /** English future validation message */
+  @Input() futureValidationMessageEn: string = 'Selected date cannot be in the future!';
+
+  /** Arabic future validation message */
+  @Input() futureValidationMessageAr: string = 'التاريخ المحدد لا يمكن ان يكون في المستقبل!';
+
+  /** Number of past years to show in year picker */
+  @Input() pastYearsLimit: number = 90;
+
+  /** Number of future years to show in year picker */
+  @Input() futureYearsLimit: number = 0;
+
+  /** Initial start date for range selection mode */
+  @Input() initialRangeStart?: Date | string;
+
+  /** Initial end date for range selection mode */
+  @Input() initialRangeEnd?: Date | string;
 
   // ============================================================
   // OUTPUTS

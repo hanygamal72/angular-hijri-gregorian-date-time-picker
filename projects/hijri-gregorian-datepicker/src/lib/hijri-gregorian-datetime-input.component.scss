@@ -180,70 +180,6 @@
   }
 
   // ============================================================
-  // ACTION BUTTONS
-  // ============================================================
-
-  .action-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid #dee2e6;
-
-    .btn {
-      padding: 0.5rem 1rem;
-      font-size: 0.875rem;
-      font-weight: 500;
-      line-height: 1.5;
-      border-radius: 0.375rem;
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: all 0.15s ease-in-out;
-      text-align: center;
-      white-space: nowrap;
-
-      &:focus {
-        outline: 0;
-        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-      }
-
-      &:disabled {
-        opacity: 0.65;
-        cursor: not-allowed;
-      }
-    }
-
-    .btn-cancel {
-      color: #6c757d;
-      background-color: #fff;
-      border-color: #6c757d;
-
-      &:hover:not(:disabled) {
-        color: #fff;
-        background-color: #6c757d;
-        border-color: #6c757d;
-      }
-    }
-
-    .btn-confirm {
-      color: #fff;
-      background-color: #007bff;
-      border-color: #007bff;
-
-      &:hover:not(:disabled) {
-        background-color: #0056b3;
-        border-color: #004085;
-      }
-
-      &:disabled {
-        background-color: #007bff;
-        border-color: #007bff;
-      }
-    }
-  }
-
-  // ============================================================
   // RESPONSIVE ADJUSTMENTS
   // ============================================================
 
@@ -277,13 +213,6 @@
     left: 2.75rem; // 44px from left (space for calendar icon)
   }
 
-  // Action buttons alignment for RTL
-  &[dir="rtl"] {
-    .action-buttons {
-      justify-content: flex-start;
-    }
-  }
-
   // ============================================================
   // ACCESSIBILITY
   // ============================================================
@@ -310,8 +239,7 @@
     .datetime-input,
     .dropdown-panel,
     .input-icon,
-    .clear-button,
-    .btn {
+    .clear-button {
       transition: none;
     }
   }

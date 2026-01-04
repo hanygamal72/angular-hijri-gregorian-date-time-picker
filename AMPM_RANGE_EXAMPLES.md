@@ -227,7 +227,7 @@ export class MyComponent {
 <!-- This continues to work exactly as before -->
 <hijri-gregorian-datepicker
   [enableTime]="true"
-  [multiple]="true">
+  [selectionMode]="'multiple'">
 </hijri-gregorian-datepicker>
 ```
 
@@ -237,7 +237,7 @@ export class MyComponent {
 <hijri-gregorian-datepicker
   [enableTime]="true"
   [useMeridian]="true"
-  [multiple]="true">
+  [selectionMode]="'multiple'">
 </hijri-gregorian-datepicker>
 
 <!-- OR switch to range mode -->
@@ -374,17 +374,17 @@ handleSubmit(event: any) {
 }
 ```
 
-### Mistake 3: Using selectionMode with multiple
+### Mistake 3: Conflicting Selection Modes
 ```html
-<!-- ❌ WRONG: Don't mix these -->
+<!-- ❌ WRONG: selectionMode already handles this -->
 <hijri-gregorian-datepicker
-  [multiple]="true"
-  [selectionMode]="'range'">
+  [selectionMode]="'range'"
+  [enableTime]="true">
 </hijri-gregorian-datepicker>
 
-<!-- ✅ CORRECT: Use one or the other -->
+<!-- ✅ CORRECT: Use appropriate selectionMode -->
 <hijri-gregorian-datepicker
-  [multiple]="true">
+  [selectionMode]="'multiple'">
 </hijri-gregorian-datepicker>
 
 <!-- OR -->

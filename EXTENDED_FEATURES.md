@@ -203,7 +203,7 @@ export class AppComponent {
 
 ```html
 <hijri-gregorian-datepicker
-  [multiple]="true"
+  [selectionMode]="'multiple'"
   [enableTime]="true"
   [minDate]="'01/06/2025'"
   [maxDate]="'30/06/2025'"
