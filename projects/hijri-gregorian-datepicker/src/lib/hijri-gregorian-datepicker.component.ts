@@ -68,6 +68,10 @@ export class HijriGregorianDatepickerComponent
   // BACKWARD COMPATIBILITY: Default to 'single' (existing behavior)
   // 'multiple' enables multi-date selection, 'range' enables range selection (start to end)
   @Input() selectionMode: 'single' | 'multiple' | 'range' = 'single';
+
+  // Date display format for input fields
+  // Supported formats: 'DD/MM/YYYY', 'MM/DD/YYYY', 'YYYY/MM/DD', 'YYYY-MM-DD', 'DD-MM-YYYY', 'MM-DD-YYYY'
+  @Input() dateDisplayFormat: string = 'DD/MM/YYYY';
   /// Outputs
   @Output() onSubmit = new EventEmitter<object>();
   @Output() onDaySelect = new EventEmitter<object>();
@@ -1213,5 +1217,15 @@ export class HijriGregorianDatepickerComponent
         }
       });
     });
+  }
+
+  /**
+   * Format a date string according to the dateDisplayFormat
+   * @param dateStr - Date string in DD/MM/YYYY format
+   * @returns Formatted date string
+   */
+  formatDisplayDate(dateStr: string): string {
+    if (!dateStr) return '';
+    return this._dateUtilsService.formatDateString(dateStr, this.dateDisplayFormat);
   }
 }

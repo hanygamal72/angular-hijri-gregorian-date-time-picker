@@ -49,15 +49,15 @@
       <p *ngIf="mode == 'ummAlQura'">
         {{
           locale == "ar"
-            ? _dateUtilsService.convertDateNumerals(todaysDate.ummAlQura, "ar")
-            : todaysDate.ummAlQura
+            ? _dateUtilsService.convertDateNumerals(formatDisplayDate(todaysDate.ummAlQura), "ar")
+            : formatDisplayDate(todaysDate.ummAlQura)
         }}
       </p>
       <p *ngIf="mode == 'greg'">
         {{
           locale == "ar"
-            ? _dateUtilsService.convertDateNumerals(todaysDate.gregorian, "ar")
-            : todaysDate.gregorian
+            ? _dateUtilsService.convertDateNumerals(formatDisplayDate(todaysDate.gregorian), "ar")
+            : formatDisplayDate(todaysDate.gregorian)
         }}
       </p>
     </div>

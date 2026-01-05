@@ -31,6 +31,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DayInfo } from '../_interfaces/calendar-model';
 import { stylesConfig } from '../_interfaces/styles-config.model';
 import { HijriGregorianDatepickerComponent } from './hijri-gregorian-datepicker.component';
+import { DateUtilitiesService } from '../_services/date-utilities.service';
 
 @Component({
   standalone: false,
@@ -155,10 +156,12 @@ export class HijriGregorianDatetimeInputComponent
   @Input() monthSelectLabel: string = 'Month';
 
   /** English future validation message */
-  @Input() futureValidationMessageEn: string = 'Selected date cannot be in the future!';
+  @Input() futureValidationMessageEn: string =
+    'Selected date cannot be in the future!';
 
   /** Arabic future validation message */
-  @Input() futureValidationMessageAr: string = 'التاريخ المحدد لا يمكن ان يكون في المستقبل!';
+  @Input() futureValidationMessageAr: string =
+    'التاريخ المحدد لا يمكن ان يكون في المستقبل!';
 
   /** Number of past years to show in year picker */
   @Input() pastYearsLimit: number = 90;
@@ -215,13 +218,19 @@ export class HijriGregorianDatetimeInputComponent
   private onTouched: () => void = () => {};
 
   // ============================================================
+  // CONSTRUCTOR
+  // ============================================================
+
+  constructor(private dateUtilitiesService: DateUtilitiesService) {}
+
+  // ============================================================
   // LIFECYCLE HOOKS
   // ============================================================
 
   ngOnInit(): void {
     // Initialize current mode from input
     this.currentMode = this.mode;
-    
+
     // Initialize with initialDate if provided
     if (this.initialDate) {
       this.initializeWithDate(this.initialDate);
@@ -356,6 +365,10 @@ export class HijriGregorianDatetimeInputComponent
    * Handle date selection from calendar (Confirm button or day click)
    */
   onCalendarSubmit(event: DayInfo | DayInfo[]): void {
+    // Update currentMode from calendar before formatting
+    if (this.calendarComponent) {
+      this.currentMode = this.calendarComponent.mode;
+    }
     this.currentValue = event;
     this.updateDisplayValue(event);
     this.onChange(event);
@@ -369,10 +382,14 @@ export class HijriGregorianDatetimeInputComponent
    * When time picker is enabled, emit value but keep dropdown open
    */
   onDaySelect(event: DayInfo | DayInfo[] | any): void {
+    // Update currentMode from calendar before formatting
+    if (this.calendarComponent) {
+      this.currentMode = this.calendarComponent.mode;
+    }
     // Update current value
     this.currentValue = event;
     this.updateDisplayValue(event);
-    
+
     // Always emit the change immediately
     this.onChange(event);
     this.dateSelected.emit(event);
@@ -494,11 +511,19 @@ export class HijriGregorianDatetimeInputComponent
   private formatDayInfo(dayInfo: DayInfo): string {
     let result = '';
 
-    // Use Gregorian date by default (you can make this configurable)
-    if (this.mode === 'greg') {
-      result = dayInfo.gD; // Already in DD/MM/YYYY format
+    // Use currentMode instead of mode to respect the active calendar mode
+    if (this.currentMode === 'greg') {
+      // Use the dateFormat property to format the display
+      result = this.dateUtilitiesService.formatDateString(
+        dayInfo.gD,
+        this.dateFormat
+      );
     } else {
-      result = dayInfo.uD; // Hijri date
+      // For Hijri dates, also apply the format
+      result = this.dateUtilitiesService.formatDateString(
+        dayInfo.uD,
+        this.dateFormat
+      );
     }
 
     // Append time if available
@@ -547,7 +572,11 @@ export class HijriGregorianDatetimeInputComponent
     }
 
     // If currentValue is a single DayInfo, create a Date object with time
-    if (this.currentValue && !Array.isArray(this.currentValue) && !(this.currentValue as any).start) {
+    if (
+      this.currentValue &&
+      !Array.isArray(this.currentValue) &&
+      !(this.currentValue as any).start
+    ) {
       if (this.enableTime && this.currentValue.time) {
         return this.createDateFromDayInfo(this.currentValue);
       }
@@ -627,9 +656,9 @@ export class HijriGregorianDatetimeInputComponent
     const day = parseInt(parts[0], 10);
     const month = parseInt(parts[1], 10) - 1;
     const year = parseInt(parts[2], 10);
-    
+
     date.setFullYear(year, month, day);
-    
+
     // Set time if available
     if (dayInfo.time) {
       date.setHours(dayInfo.time.hour, dayInfo.time.minute, 0, 0);

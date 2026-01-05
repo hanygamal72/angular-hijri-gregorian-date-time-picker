@@ -180,12 +180,13 @@ select:focus {
     text-align: center;
     display: flex;
     justify-content: space-evenly;
+    margin-bottom: .3rem;
   }
 
   .day {
     display: inline-flex;
     width: 13%;
-    height: 5.5vh;
+    // height: 5.5vh;
     justify-content: center;
     align-items: center;
     cursor: pointer;

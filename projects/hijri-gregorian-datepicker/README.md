@@ -59,6 +59,7 @@ However, the Gregorian calendar is the calendar used in most of the world, and i
 - Converting dates when changing type of calendar.
 - Ability to specify min and max value for **Gregorian** and **Hijri**.
 - Ability to make it required or readonly.
+- **Customizable date display format** (DD/MM/YYYY, MM/DD/YYYY, YYYY-MM-DD, etc.)
 - Very easy to customize with **beautiful custom select dropdowns**.
 - Can select **Single**, **Multiple** dates, or **Date Ranges**.
 - **Time picker** with 12-hour/24-hour format support.
@@ -110,12 +111,28 @@ Use the `hijri-gregorian-datetime-input` component for a complete input field wi
   [enableTime]="true"
   [selectionMode]="'single'"
   [placeholder]="'Select date and time'"
+  [dateFormat]="'DD/MM/YYYY'"
   [minDate]="minDate"
   [maxDate]="maxDate"
   [useMeridian]="true"
   [styles]="stylesConfig"
   (dateSelected)="onDateSelected($event)"
 ></hijri-gregorian-datetime-input>
+```
+
+**Date Format Examples:**
+```html
+<!-- European format: 19/12/2024 -->
+<hijri-gregorian-datetime-input dateFormat="DD/MM/YYYY"></hijri-gregorian-datetime-input>
+
+<!-- US format: 12/19/2024 -->
+<hijri-gregorian-datetime-input dateFormat="MM/DD/YYYY"></hijri-gregorian-datetime-input>
+
+<!-- ISO format: 2024-12-19 -->
+<hijri-gregorian-datetime-input dateFormat="YYYY-MM-DD"></hijri-gregorian-datetime-input>
+
+<!-- Year first: 1446/12/19 (useful for Hijri dates) -->
+<hijri-gregorian-datetime-input mode="ummAlQura" dateFormat="YYYY/MM/DD"></hijri-gregorian-datetime-input>
 ```
 
 **Features:**
@@ -250,6 +267,7 @@ The component supports full translation of AM/PM labels for 12-hour format:
 | Property                           |  Type   |                    Default                    | Description                                                                                                      |
 | ---------------------------------- | :-----: | :-------------------------------------------: | ---------------------------------------------------------------------------------------------------------------- |
 | <b>`placeholder`</b>               | string  |        `Select date and time`                 | Placeholder text for the input field                                                                              |
+| <b>`dateFormat`</b>                | string  |                `DD/MM/YYYY`                   | Display format for dates. Supported: `DD/MM/YYYY`, `MM/DD/YYYY`, `YYYY/MM/DD`, `YYYY-MM-DD`, etc.               |
 | <b>`disabled`</b>                  | boolean |                    `false`                    | When `true` the input is disabled                                                                                 |
 | <b>`enableTime`</b>                | boolean |                    `false`                    | When `true` enables time picker in the dropdown calendar                                                          |
 | <b>`minDate`</b>                   | Date    |                    `null`                     | Minimum selectable date                                                                                           |
@@ -304,6 +322,7 @@ The component supports full translation of AM/PM labels for 12-hour format:
 | <b>`minDate`</b>                   | Date    |                    `null`                     | Minimum selectable date - dates before this will be disabled                                                      |
 | <b>`maxDate`</b>                   | Date    |                    `null`                     | Maximum selectable date - dates after this will be disabled                                                       |
 | <b>`useMeridian`</b>               | boolean |                    `true`                     | When `true` the time picker uses 12-hour format with AM/PM, if `false` uses 24-hour format                        |
+| <b>`dateDisplayFormat`</b>         | string  |                `DD/MM/YYYY`                   | Display format for dates in the calendar. Supported: `DD/MM/YYYY`, `MM/DD/YYYY`, `YYYY/MM/DD`, `YYYY-MM-DD`, etc. |
 | <b>`styles`</b>                    | object  |                     `{}`                      | Styles for the calendar look and feel                                                                            |
 | <b>`theme`</b>                     | string  |                     `Midnight Blue`           | Different skins and themes for the calendar('Ocean Breeze', 'Lavender Dreams', 'Sunset Glow', 'Midnight Blue', 'Forest Canopy', 'Rosewood Elegance', 'Icy Mint', 'Golden Sand', 'Steel Grey', 'Coral Reef'), and it has priority over styles
 

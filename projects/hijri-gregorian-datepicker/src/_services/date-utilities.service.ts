@@ -43,6 +43,46 @@ export class DateUtilitiesService {
     return `${day}/${month}/${year}`;
   }
 
+  /**
+   * Format date string according to specified format pattern
+   * Supported formats: 'DD/MM/YYYY', 'MM/DD/YYYY', 'YYYY/MM/DD', 'YYYY-MM-DD', 'DD-MM-YYYY', 'MM-DD-YYYY'
+   * @param dateStr - Date string in DD/MM/YYYY format
+   * @param format - Desired output format pattern
+   * @returns Formatted date string
+   */
+  formatDateString(dateStr: string, format: string = 'DD/MM/YYYY'): string {
+    if (!dateStr) return '';
+
+    const parts = dateStr.split('/');
+    if (parts.length !== 3) return dateStr;
+
+    const [day, month, year] = parts;
+
+    // Determine separator from format
+    const separator = format.includes('-') ? '-' : '/';
+
+    // Build date according to format pattern
+    const formatUpper = format.toUpperCase().replace(/[-/]/g, '/');
+
+    switch (formatUpper) {
+      case 'DD/MM/YYYY':
+        return `${day}${separator}${month}${separator}${year}`;
+      case 'MM/DD/YYYY':
+        return `${month}${separator}${day}${separator}${year}`;
+      case 'YYYY/MM/DD':
+        return `${year}${separator}${month}${separator}${day}`;
+      case 'YYYY/DD/MM':
+        return `${year}${separator}${day}${separator}${month}`;
+      case 'DD/YYYY/MM':
+        return `${day}${separator}${year}${separator}${month}`;
+      case 'MM/YYYY/DD':
+        return `${month}${separator}${year}${separator}${day}`;
+      default:
+        // Default to DD/MM/YYYY
+        return `${day}${separator}${month}${separator}${year}`;
+    }
+  }
+
   getDayShortHand(date: Date): string {
     return date.toLocaleString('en-US', { weekday: 'short' });
   }
