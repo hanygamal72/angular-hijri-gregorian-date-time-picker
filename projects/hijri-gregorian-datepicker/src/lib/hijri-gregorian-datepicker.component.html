@@ -47,18 +47,10 @@
       }"
     >
       <p *ngIf="mode == 'ummAlQura'">
-        {{
-          locale == "ar"
-            ? _dateUtilsService.convertDateNumerals(formatDisplayDate(todaysDate.ummAlQura), "ar")
-            : formatDisplayDate(todaysDate.ummAlQura)
-        }}
+        {{ formatDisplayDate(todaysDate.ummAlQura) }}
       </p>
       <p *ngIf="mode == 'greg'">
-        {{
-          locale == "ar"
-            ? _dateUtilsService.convertDateNumerals(formatDisplayDate(todaysDate.gregorian), "ar")
-            : formatDisplayDate(todaysDate.gregorian)
-        }}
+        {{ formatDisplayDate(todaysDate.gregorian) }}
       </p>
     </div>
   </div>
@@ -91,7 +83,7 @@
           }"
         >
           <option *ngFor="let year of years" [ngValue]="year">
-            {{ locale == "ar" ? _dateUtilsService.parseEnglish(year) : year }}
+            {{ year }}
           </option>
         </select>
       </div>
@@ -193,21 +185,9 @@
               cursor: isDateDisabled(day) ? 'not-allowed' : 'pointer'
             }"
           >
-            <span *ngIf="mode == 'greg'">{{
-              locale == "ar"
-                ? _dateUtilsService.parseEnglish(
-                    day?.gD?.split("/")[0] | number
-                  )
-                : (day?.gD?.split("/")[0] | number)
-            }}</span>
+            <span *ngIf="mode == 'greg'">{{ day?.gD?.split("/")[0] | number }}</span>
 
-            <span id="ummAlQura-day" *ngIf="mode == 'ummAlQura'">{{
-              locale == "ar"
-                ? _dateUtilsService.parseEnglish(
-                    day?.uD?.split("/")[0] | number
-                  )
-                : (day?.uD?.split("/")[0] | number)
-            }}</span>
+            <span id="ummAlQura-day" *ngIf="mode == 'ummAlQura'">{{ day?.uD?.split("/")[0] | number }}</span>
           </div>
         </div>
       </div>
