@@ -49,6 +49,8 @@ import { DateUtilitiesService } from '../_services/date-utilities.service';
 export class HijriGregorianDatetimeInputComponent
   implements ControlValueAccessor, OnInit, OnDestroy
 {
+  // Local storage key for persisting calendar mode
+  private readonly STORAGE_KEY = 'hg_datepicker_mode';
   // ============================================================
   // CONFIGURATION INPUTS
   // ============================================================
@@ -229,7 +231,13 @@ export class HijriGregorianDatetimeInputComponent
 
   ngOnInit(): void {
     // Initialize current mode from input
-    this.currentMode = this.mode;
+    // Prefer persisted mode if available, otherwise use input
+    try {
+      const stored = localStorage.getItem(this.STORAGE_KEY);
+      this.currentMode = stored ? stored : this.mode;
+    } catch (e) {
+      this.currentMode = this.mode;
+    }
 
     // Initialize with initialDate if provided
     if (this.initialDate) {
@@ -314,6 +322,11 @@ export class HijriGregorianDatetimeInputComponent
     // Save the current mode from the calendar before closing
     if (this.calendarComponent) {
       this.currentMode = this.calendarComponent.mode;
+      try {
+        localStorage.setItem(this.STORAGE_KEY, this.currentMode);
+      } catch (e) {
+        // ignore storage errors
+      }
     }
     this.isDropdownOpen = false;
     this.dropdownClosed.emit();
@@ -368,6 +381,9 @@ export class HijriGregorianDatetimeInputComponent
     // Update currentMode from calendar before formatting
     if (this.calendarComponent) {
       this.currentMode = this.calendarComponent.mode;
+      try {
+        localStorage.setItem(this.STORAGE_KEY, this.currentMode);
+      } catch (e) {}
     }
     this.currentValue = event;
     this.updateDisplayValue(event);
@@ -385,6 +401,9 @@ export class HijriGregorianDatetimeInputComponent
     // Update currentMode from calendar before formatting
     if (this.calendarComponent) {
       this.currentMode = this.calendarComponent.mode;
+      try {
+        localStorage.setItem(this.STORAGE_KEY, this.currentMode);
+      } catch (e) {}
     }
     // Update current value
     this.currentValue = event;

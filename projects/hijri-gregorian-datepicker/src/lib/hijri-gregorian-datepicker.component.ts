@@ -23,6 +23,8 @@ import * as themesConfig from '../themes/themes.json';
 export class HijriGregorianDatepickerComponent
   implements OnInit, OnChanges, AfterViewInit
 {
+  // Local storage key for persisting calendar mode
+  private readonly STORAGE_KEY = 'hg_datepicker_mode';
   /// Inputs
   @Input() markToday: boolean = true;
   @Input() canChangeMode: boolean = true;
@@ -153,6 +155,16 @@ export class HijriGregorianDatepickerComponent
     // BACKWARD COMPATIBILITY: This only runs when enableTime=true
     if (this.enableTime) {
       this.initializeTime();
+    }
+
+    // Load persisted calendar mode if available
+    try {
+      const stored = localStorage.getItem(this.STORAGE_KEY);
+      if (stored) {
+        this.mode = stored;
+      }
+    } catch (e) {
+      // ignore storage errors (e.g., SSR or disabled storage)
     }
   }
 
@@ -531,6 +543,13 @@ export class HijriGregorianDatepickerComponent
 
     // Reapply selection after mode change
     this.reapplySelection();
+
+    // Persist new mode
+    try {
+      localStorage.setItem(this.STORAGE_KEY, this.mode);
+    } catch (e) {
+      // ignore storage errors
+    }
   }
 
   /**
