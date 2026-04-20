@@ -79,6 +79,7 @@ export class HijriGregorianDatepickerComponent
   @Output() onDaySelect = new EventEmitter<object>();
   @Output() onMonthChange = new EventEmitter<object>();
   @Output() onYearChange = new EventEmitter<object>();
+  @Output() onModeChange = new EventEmitter<string>();
   /// Variables
   ummAlQuraMonths = [
     { labelAr: 'محرم', labelEn: 'Muharram', value: 1 },
@@ -178,11 +179,19 @@ export class HijriGregorianDatepickerComponent
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['mode'] && !changes['mode'].isFirstChange()) {
-      // Don't emit during initialization, only when mode changes after init
-      const previousMode = changes['mode'].previousValue;
+      // When mode input changes from parent, update calendar display
+      // Don't call changeCalendarMode() as that toggles - just accept the new value
       const currentMode = changes['mode'].currentValue;
-      if (previousMode !== currentMode) {
-        this.changeCalendarMode();
+      if (this.mode !== currentMode) {
+        this.mode = currentMode;
+        this.initializeYearsAndMonths();
+        this.generatetMonthData(
+          '01/' +
+            this.periodForm.controls['month'].value +
+            '/' +
+            this.periodForm.controls['year'].value
+        );
+        this.reapplySelection();
       }
     }
   }
@@ -544,12 +553,15 @@ export class HijriGregorianDatepickerComponent
     // Reapply selection after mode change
     this.reapplySelection();
 
-    // Persist new mode
+    // Persist new mode immediately
     try {
       localStorage.setItem(this.STORAGE_KEY, this.mode);
     } catch (e) {
       // ignore storage errors
     }
+
+    // Emit mode change event for parent components
+    this.onModeChange.emit(this.mode);
   }
 
   /**

@@ -319,14 +319,9 @@ export class HijriGregorianDatetimeInputComponent
    * Close the dropdown panel
    */
   closeDropdown(): void {
-    // Save the current mode from the calendar before closing
+    // Sync the current mode from the calendar before closing
     if (this.calendarComponent) {
       this.currentMode = this.calendarComponent.mode;
-      try {
-        localStorage.setItem(this.STORAGE_KEY, this.currentMode);
-      } catch (e) {
-        // ignore storage errors
-      }
     }
     this.isDropdownOpen = false;
     this.dropdownClosed.emit();
@@ -447,6 +442,22 @@ export class HijriGregorianDatetimeInputComponent
    */
   onCancelClicked(): void {
     this.closeDropdown();
+  }
+
+  /**
+   * Handle calendar mode change (when user clicks the toggle button)
+   * Mode is saved immediately to localStorage
+   */
+  onModeChangeHandler(mode: string): void {
+    // Update currentMode immediately so next open uses correct mode
+    this.currentMode = mode;
+
+    // Persist the mode immediately when user toggles
+    try {
+      localStorage.setItem(this.STORAGE_KEY, mode);
+    } catch (e) {
+      // ignore storage errors
+    }
   }
 
   // ============================================================

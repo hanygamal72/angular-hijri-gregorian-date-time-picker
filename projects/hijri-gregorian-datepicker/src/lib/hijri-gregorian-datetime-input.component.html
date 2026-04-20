@@ -1,6 +1,6 @@
 <!--
   DateTime Input Component Template
-  
+
   Structure:
   1. Input field (click to open dropdown)
   2. Dropdown container (positioned absolutely)
@@ -121,6 +121,7 @@
         [dateDisplayFormat]="dateFormat"
         (onSubmit)="onCalendarSubmit($any($event))"
         (onDaySelect)="onDaySelect($any($event))"
+        (onModeChange)="onModeChangeHandler($event)"
       >
       </hijri-gregorian-datepicker>
     </div>
