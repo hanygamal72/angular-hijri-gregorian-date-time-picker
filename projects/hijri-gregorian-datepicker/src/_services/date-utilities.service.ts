@@ -477,11 +477,15 @@ export class DateUtilitiesService {
         return null; // Invalid: ambiguous format
       }
     } else if (yearIndex === 0) {
-      // Format: YYYY/MM/DD or YYYY/DD/MM (Gregorian)
+      // Format: YYYY/MM/DD or YYYY/DD/MM (could be Gregorian or Hijri)
       year = parts[0].padStart(4, '0');
       month = parts[1].padStart(2, '0');
       day = parts[2].padStart(2, '0');
-      isGregorian = true;
+
+      // Determine if Gregorian or Hijri based on year value
+      const yearNum = parseInt(year, 10);
+      // Hijri years typically 1300-1500, Gregorian years typically > 1800
+      isGregorian = yearNum > 1800;
 
       // Smart validation: if month > 12, swap day and month
       const monthNum = parseInt(month, 10);
