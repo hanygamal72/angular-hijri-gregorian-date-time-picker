@@ -250,6 +250,11 @@ export class HijriGregorianDatepickerComponent
           : this.todaysDate.ummAlQura;
     }
 
+    // Fallback to default date if referenceDate is invalid
+    if (!referenceDate || referenceDate.split('/').length !== 3) {
+      referenceDate = this.mode == 'greg' ? '01/01/2020' : '01/01/1446';
+    }
+
     if (this.mode == 'greg') {
       this.gregYear =
         this.futureYearsLimit == 0
@@ -311,10 +316,11 @@ export class HijriGregorianDatepickerComponent
   /// Get todays(greg and umm al qura) date info
   getTodaysDateInfo() {
     this.todaysDate.gregorian = this._dateUtilsService.formatDate(new Date());
-    this.todaysDate.ummAlQura = this._dateUtilsService.convertDate(
+    const convertedDate = this._dateUtilsService.convertDate(
       this.todaysDate.gregorian,
       true
-    )?.uD;
+    );
+    this.todaysDate.ummAlQura = convertedDate?.uD || '01/01/1446'; // Fallback to a default Hijri date if conversion fails
 
     // Use initialDate if provided, otherwise use today's date
     let dateToNavigate: string;
@@ -512,6 +518,9 @@ export class HijriGregorianDatepickerComponent
 
   /// Generate month weeks
   generateWeeksArray(daysArray: any) {
+    if (!daysArray || daysArray.length === 0) {
+      return [[]];
+    }
     const firstDayName = daysArray[0]?.dN;
     const startIndex = this.weekdaysEn.indexOf(firstDayName);
     const weeks = [[]] as any;

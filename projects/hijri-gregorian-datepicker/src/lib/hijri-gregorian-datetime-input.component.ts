@@ -546,13 +546,13 @@ export class HijriGregorianDatetimeInputComponent
       // Use the dateFormat property to format the display
       result = this.dateUtilitiesService.formatDateString(
         dayInfo.gD,
-        this.dateFormat
+        this.dateFormat,
       );
     } else {
       // For Hijri dates, also apply the format
       result = this.dateUtilitiesService.formatDateString(
         dayInfo.uD,
-        this.dateFormat
+        this.dateFormat,
       );
     }
 

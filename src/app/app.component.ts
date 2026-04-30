@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DateUtilitiesService } from 'projects/hijri-gregorian-datepicker/src/_services/date-utilities.service';
 import { DayInfo } from 'projects/hijri-gregorian-datepicker/src/_interfaces/calendar-model';
 import { stylesConfig } from 'projects/hijri-gregorian-datepicker/src/_interfaces/styles-config.model';
 
@@ -63,14 +62,10 @@ export class AppComponent {
 
   // ==================================================
   form = new FormGroup({
-    dateTimeInput: new FormControl(null), // Initial value will be set in constructor
+    dateTimeInput: new FormControl(''),
   });
 
-  constructor(private dateUtilitiesService: DateUtilitiesService) {
-    this.form.patchValue({
-      dateTimeInput: this.dateUtilitiesService.convertDate('1447-08-06' , false), // Example initial value in Hijri format
-    });
-  }
+  constructor() {}
 
   onSubmit(ev: any) {
     console.log('📅 On Submit:', ev);

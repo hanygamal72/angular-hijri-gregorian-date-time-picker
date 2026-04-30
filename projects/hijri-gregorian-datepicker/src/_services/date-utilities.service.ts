@@ -96,6 +96,7 @@ export class DateUtilitiesService {
     let currentUmmAlQuraMonth = parseInt(fD?.uD?.split('/')[1]);
     let currentUmmAlQuraYear = parseInt(fD?.uD?.split('/')[2]);
     let daysInCurrentUmmAlQuraMonth = uC;
+
     while (currentGregorianDate <= endDate) {
       const ummAlQuraDate = `${currentUmmAlQuraDay
         .toString()
@@ -108,7 +109,11 @@ export class DateUtilitiesService {
         dN: this.getDayShortHand(currentGregorianDate),
         uC: 0,
       });
+
+      // Increment date and normalize time to avoid DST issues
       currentGregorianDate.setDate(currentGregorianDate.getDate() + 1);
+      currentGregorianDate.setHours(0, 0, 0, 0); // Normalize to midnight
+
       currentUmmAlQuraDay += 1;
       if (currentUmmAlQuraDay > daysInCurrentUmmAlQuraMonth) {
         currentUmmAlQuraDay = 1;
@@ -156,7 +161,33 @@ export class DateUtilitiesService {
       if (!gregorianDate) return null;
       const formattedDate = this.formatDate(gregorianDate);
 
-      // Search through calendar data to find matching Gregorian date
+      // Extract year and month for direct lookup (remove leading zeros from month)
+      const [, month, year] = formattedDate.split('/');
+      const monthKey = String(Number(month)); // Remove leading zero: "04" -> "4"
+
+      // Try direct lookup first (much faster)
+      if (this.calendarData[year] && this.calendarData[year][monthKey]) {
+        const monthData = this.calendarData[year][monthKey];
+
+        if (
+          this.isDateInMonthRange(
+            formattedDate,
+            monthData.fD?.gD,
+            monthData.lD?.gD,
+          )
+        ) {
+          const daysInMonth = this.generateDates(
+            monthData.fD,
+            monthData.lD,
+            monthData.fD?.uC,
+          );
+
+          const dayMatch = daysInMonth.find((d) => d.gD === formattedDate);
+          if (dayMatch) return dayMatch;
+        }
+      }
+
+      // Fallback: search all years and months if direct lookup fails
       for (const yearKey in this.calendarData) {
         for (const monthKey in this.calendarData[yearKey]) {
           const monthData = this.calendarData[yearKey][monthKey];
@@ -165,13 +196,13 @@ export class DateUtilitiesService {
             this.isDateInMonthRange(
               formattedDate,
               monthData.fD?.gD,
-              monthData.lD?.gD
+              monthData.lD?.gD,
             )
           ) {
             const daysInMonth = this.generateDates(
               monthData.fD,
               monthData.lD,
-              monthData.fD?.uC
+              monthData.fD?.uC,
             );
 
             const dayMatch = daysInMonth.find((d) => d.gD === formattedDate);
@@ -194,13 +225,13 @@ export class DateUtilitiesService {
             this.isDateInMonthRange(
               `${day}/${month}/${year}`,
               monthData.fD?.uD,
-              monthData.lD?.uD
+              monthData.lD?.uD,
             )
           ) {
             const daysInMonth = this.generateDates(
               monthData.fD,
               monthData.lD,
-              monthData.fD?.uC
+              monthData.fD?.uC,
             );
 
             const dayMatch = daysInMonth.find((d) => {
@@ -220,7 +251,7 @@ export class DateUtilitiesService {
   private isDateInMonthRange(
     dateToCheck: string,
     monthStartDate: string | undefined,
-    monthEndDate: string | undefined
+    monthEndDate: string | undefined,
   ): boolean {
     if (!monthStartDate || !monthEndDate) return false;
 
@@ -234,7 +265,8 @@ export class DateUtilitiesService {
   }
 
   getMonthData(inputDate: string, type: string): DayInfo[] | null {
-    const [day, month, year] = inputDate?.split('/').map(Number);
+    if (!inputDate) return null;
+    const [day, month, year] = inputDate.split('/').map(Number);
     let isGregorian: boolean;
     if (type == 'greg') {
       isGregorian = true;
@@ -251,7 +283,7 @@ export class DateUtilitiesService {
   getGregorianMonthData(
     day: number,
     month: number,
-    year: number
+    year: number,
   ): DayInfo[] | null {
     const yearData = this.calendarData[year];
     if (!yearData) return null;
@@ -269,7 +301,7 @@ export class DateUtilitiesService {
         uD: this.calculateUmAlQurraDate(
           monthData.fD.uD,
           offset,
-          monthData.fD.uC
+          monthData.fD.uC,
         ),
         dN: this.getDayName(new Date(year, month - 1, d).getDay()),
         uC: monthData.fD.uC,
@@ -282,7 +314,7 @@ export class DateUtilitiesService {
   getUmAlQurraMonthData(
     day: number,
     month: number,
-    year: number
+    year: number,
   ): DayInfo[] | null {
     for (const gregorianYear in this.calendarData) {
       const yearData = this.calendarData[parseInt(gregorianYear)];
@@ -301,19 +333,19 @@ export class DateUtilitiesService {
 
           const startGregorianDate = this.calculateGregorianDate(
             monthData.fD.gD,
-            -dayDifference
+            -dayDifference,
           );
 
           for (let i = 0; i < totalDays; i++) {
             const uDate = this.calculateUmAlQurraDate(
               umAlQurraStartDate,
               i,
-              totalDays
+              totalDays,
             );
             const gDate = this.calculateGregorianDate(startGregorianDate, i);
             const [gDay, gMonth, gYear] = gDate?.split('/').map(Number);
             const dayName = this.getDayName(
-              new Date(gYear, gMonth - 1, gDay).getDay()
+              new Date(gYear, gMonth - 1, gDay).getDay(),
             );
 
             monthArray.push({
@@ -346,7 +378,7 @@ export class DateUtilitiesService {
   calculateUmAlQurraDate(
     startUDate: string,
     offset: number,
-    uC: number
+    uC: number,
   ): string {
     const [day, month, year] = startUDate?.split('/').map(Number);
 
@@ -653,7 +685,7 @@ export class DateUtilitiesService {
   isDateInRange(
     dateStr: string,
     minDateStr: string | null,
-    maxDateStr: string | null
+    maxDateStr: string | null,
   ): boolean {
     if (!dateStr) return false;
 
@@ -680,7 +712,7 @@ export class DateUtilitiesService {
   isHijriDateInRange(
     hijriDateStr: string,
     minDateStr: string | null,
-    maxDateStr: string | null
+    maxDateStr: string | null,
   ): boolean {
     if (!hijriDateStr) return false;
 
@@ -694,7 +726,7 @@ export class DateUtilitiesService {
     const date = new Date(dateString);
     // Gregorian date (DD/MM/YYYY)
     const gD = `${String(date.getDate()).padStart(2, '0')}/${String(
-      date.getMonth() + 1
+      date.getMonth() + 1,
     ).padStart(2, '0')}/${date.getFullYear()}`;
 
     // Day name
@@ -713,7 +745,7 @@ export class DateUtilitiesService {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric',
-      }
+      },
     );
 
     const hijriParts = hijriFormatter.formatToParts(date);

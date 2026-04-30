@@ -10,7 +10,11 @@
   border-radius: 20px;
 
   /* Default English/Poppins */
-  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI",
+  font-family:
+    "Poppins",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
     sans-serif;
   font-weight: 400;
 
@@ -105,8 +109,8 @@
         font-weight: 500;
         display: block;
         margin: auto;
-        padding-left: 15px;
-        padding-right: 15px;
+        padding-left: 10px;
+        padding-right: 10px;
         background: url("data:image/svg+xml;utf8,<svg viewBox='0 0 140 140' width='15' height='15' xmlns='http://www.w3.org/2000/svg'><g><path d='m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z' fill='black'/></g></svg>")
           no-repeat 95% 50%;
         -moz-appearance: none;
@@ -182,7 +186,7 @@ select:focus {
     text-align: center;
     display: flex;
     justify-content: space-evenly;
-    margin-bottom: .3rem;
+    margin-bottom: 0.3rem;
   }
 
   .day {
@@ -465,8 +469,13 @@ select:focus {
         padding: 0;
         margin: 0;
         transition: all 0.2s ease;
-        font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI",
-          system-ui, sans-serif;
+        font-family:
+          "Poppins",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          system-ui,
+          sans-serif;
 
         [dir="rtl"] &,
         [lang="ar"] & {
