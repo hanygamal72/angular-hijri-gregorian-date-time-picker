@@ -132,12 +132,32 @@ export class DateUtilitiesService {
     return daysInMonth;
   }
 
-  convertDate(dateStr: string, isGregorian: boolean): DayInfo | null {
+  /**
+   * Convert date between Gregorian and Hijri calendars
+   * Accepts any common date format and automatically normalizes it
+   * @param dateStr - Input date string in any common format
+   * @param isGregorian - True if input is Gregorian, false if Hijri (optional - auto-detected if not provided)
+   * @returns DayInfo object with both Gregorian and Hijri dates, or null if invalid
+   */
+  convertDate(dateStr: string, isGregorian?: boolean): DayInfo | null {
     if (!dateStr) return null;
 
-    if (isGregorian) {
-      // Preprocess Gregorian date
-      const gregorianDate = this.parseDate(dateStr);
+    // Step 1: Normalize the input date to handle any format
+    const normalizedResult = this.normalizeDate(dateStr);
+    if (!normalizedResult) return null;
+
+    const { normalized, isGregorian: detectedIsGregorian } = normalizedResult;
+
+    // Use provided isGregorian flag, or fall back to auto-detected value
+    const isGregorianDate = isGregorian !== undefined ? isGregorian : detectedIsGregorian;
+
+    if (isGregorianDate) {
+      // Process Gregorian date (normalized format: YYYY/MM/DD)
+      // Convert to DD/MM/YYYY for parseDate compatibility
+      const [year, month, day] = normalized.split('/');
+      const ddmmyyyy = `${day}/${month}/${year}`;
+
+      const gregorianDate = this.parseDate(ddmmyyyy);
       if (!gregorianDate) return null;
       const formattedDate = this.formatDate(gregorianDate);
 
@@ -191,10 +211,12 @@ export class DateUtilitiesService {
         }
       }
     } else {
-      const [day, month, year] = dateStr.split('/').map(Number);
+      // Process Hijri date (normalized format: DD/MM/YYYY)
+      const [day, month, year] = normalized.split('/').map(Number);
 
       if (isNaN(day) || isNaN(month) || isNaN(year)) return null;
 
+      // Search through calendar data to find matching Hijri date
       for (const yearKey in this.calendarData) {
         for (const monthKey in this.calendarData[yearKey]) {
           const monthData = this.calendarData[yearKey][monthKey];
@@ -429,18 +451,161 @@ export class DateUtilitiesService {
     });
   }
 
-  ///
-  convertDateNumerals(date: string, targetLang: 'en' | 'ar'): string {
+  /**
+   * Normalize date string to a consistent format with automatic detection
+   * Handles any common date format and returns standardized output
+   * @param dateStr - Input date string in any common format
+   * @returns Object with normalized date string and format type, or null if invalid
+   */
+  normalizeDate(dateStr: string): { normalized: string; isGregorian: boolean } | null {
+    if (!dateStr || typeof dateStr !== 'string') {
+      return null;
+    }
+
     const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
     const englishNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
-    const toArabic = (value: string) =>
+    // Step 1: Convert Arabic-Indic numerals to English numerals
+    let normalized = dateStr.trim()
+      .split('')
+      .map((char) => {
+        const index = arabicNumbers.indexOf(char);
+        return index > -1 ? englishNumbers[index] : char;
+      })
+      .join('');
+
+    // Step 2: Replace all hyphens with forward slashes for consistency
+    normalized = normalized.replace(/-/g, '/');
+
+    // Step 3: Split by separator and validate
+    const parts = normalized.split('/').filter(part => part.length > 0);
+
+    if (parts.length !== 3) {
+      return null; // Invalid: must have exactly 3 parts
+    }
+
+    // Validate that all parts are numeric
+    if (!parts.every(part => /^\d+$/.test(part))) {
+      return null; // Invalid: all parts must be numeric
+    }
+
+    let year: string, month: string, day: string;
+    let isGregorian = false;
+
+    // Step 4: Smart detection - identify year by finding 4-digit number
+    const yearIndex = parts.findIndex(part => part.length === 4);
+
+    if (yearIndex === -1) {
+      // No 4-digit part found - try 2-digit year (ambiguous, default to Hijri DD/MM/YY)
+      if (parts.every(part => part.length <= 2)) {
+        // Assume DD/MM/YY format (Hijri)
+        day = parts[0].padStart(2, '0');
+        month = parts[1].padStart(2, '0');
+        // Convert 2-digit year to 4-digit (assume 20xx for years 00-99)
+        const yearNum = parseInt(parts[2], 10);
+        year = yearNum < 100 ? `20${parts[2].padStart(2, '0')}` : parts[2].padStart(4, '0');
+        isGregorian = false;
+      } else {
+        return null; // Invalid: ambiguous format
+      }
+    } else if (yearIndex === 0) {
+      // Format: YYYY/MM/DD or YYYY/DD/MM (could be Gregorian or Hijri)
+      year = parts[0].padStart(4, '0');
+      month = parts[1].padStart(2, '0');
+      day = parts[2].padStart(2, '0');
+
+      // Determine if Gregorian or Hijri based on year value
+      const yearNum = parseInt(year, 10);
+      // Hijri years typically 1300-1500, Gregorian years typically > 1800
+      isGregorian = yearNum > 1800;
+
+      // Smart validation: if month > 12, swap day and month
+      const monthNum = parseInt(month, 10);
+      const dayNum = parseInt(day, 10);
+      if (monthNum > 12 && dayNum <= 12) {
+        [month, day] = [day, month];
+      }
+    } else if (yearIndex === 2) {
+      // Format: DD/MM/YYYY or MM/DD/YYYY (could be either)
+      year = parts[2].padStart(4, '0');
+      const first = parts[0].padStart(2, '0');
+      const second = parts[1].padStart(2, '0');
+
+      // Smart detection: determine if it's DD/MM or MM/DD
+      const firstNum = parseInt(first, 10);
+      const secondNum = parseInt(second, 10);
+
+      if (firstNum > 12) {
+        // First part > 12, must be day
+        day = first;
+        month = second;
+      } else if (secondNum > 12) {
+        // Second part > 12, must be day (so first is month)
+        month = first;
+        day = second;
+      } else {
+        // Ambiguous (both <= 12) - default to DD/MM/YYYY format
+        day = first;
+        month = second;
+      }
+
+      // Determine if Gregorian or Hijri based on year value
+      const yearNum = parseInt(year, 10);
+      // Gregorian years typically > 1900, Hijri years typically 1300-1500
+      isGregorian = yearNum > 1800;
+    } else {
+      // Middle position (rare, e.g., DD/YYYY/MM or MM/YYYY/DD)
+      return null; // Unsupported format
+    }
+
+    // Step 5: Validate extracted values
+    const yearNum = parseInt(year, 10);
+    const monthNum = parseInt(month, 10);
+    const dayNum = parseInt(day, 10);
+
+    if (yearNum < 1 || yearNum > 9999 ||
+        monthNum < 1 || monthNum > 12 ||
+        dayNum < 1 || dayNum > 31) {
+      return null; // Invalid date values
+    }
+
+    // Step 6: Return normalized date in appropriate format
+    // Gregorian: YYYY/MM/DD
+    // Hijri: DD/MM/YYYY
+    const normalizedDate = isGregorian
+      ? `${year}/${month}/${day}`
+      : `${day}/${month}/${year}`;
+
+    return {
+      normalized: normalizedDate,
+      isGregorian: isGregorian
+    };
+  }
+
+  /**
+   * Convert date numerals between Arabic-Indic and Western Arabic
+   * Accepts any common date format and automatically normalizes before conversion
+   * @param date - Input date string in any common format
+   * @param targetLang - Target language: 'ar' for Arabic-Indic numerals, 'en' for Western Arabic
+   * @returns Date string with converted numerals in the detected format, or original string if invalid
+   */
+  convertDateNumerals(date: string, targetLang: 'en' | 'ar'): string {
+    if (!date || typeof date !== 'string') {
+      return date;
+    }
+
+    const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    const englishNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+    // Helper: Convert Western Arabic numerals to Arabic-Indic
+    const toArabic = (value: string): string =>
       value
         .split('')
         .map((char) => (/\d/.test(char) ? arabicNumbers[+char] : char))
         .join('');
 
-    const toEnglish = (value: string) =>
+    // Helper: Convert Arabic-Indic numerals to Western Arabic
+    const toEnglish = (value: string): string =>
       value
         .split('')
         .map((char) => {
@@ -449,12 +614,23 @@ export class DateUtilitiesService {
         })
         .join('');
 
+    // Step 1: Normalize the input date to handle any format
+    const normalizedResult = this.normalizeDate(date);
+
+    if (!normalizedResult) {
+      // If normalization fails, attempt basic conversion on original string
+      return targetLang === 'ar' ? toArabic(date) : toEnglish(date);
+    }
+
+    const { normalized } = normalizedResult;
+
+    // Step 2: Apply numeral conversion based on target language
     if (targetLang === 'ar') {
-      const [day, month, year] = date.split('/');
-      return `${toArabic(year)}/${toArabic(month)}/${toArabic(day)}`;
+      // Convert to Arabic-Indic numerals
+      return toArabic(normalized);
     } else {
-      const [year, month, day] = date.split('/');
-      return `${toEnglish(day)}/${toEnglish(month)}/${toEnglish(year)}`;
+      // Convert to English numerals (already normalized to English)
+      return normalized;
     }
   }
 

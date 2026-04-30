@@ -120,6 +120,7 @@
         [dateDisplayFormat]="dateFormat"
         (onSubmit)="onCalendarSubmit($any($event))"
         (onDaySelect)="onDaySelect($any($event))"
+        (onModeChange)="onModeChangeHandler($event)"
       >
       </hijri-gregorian-datepicker>
     </div>
