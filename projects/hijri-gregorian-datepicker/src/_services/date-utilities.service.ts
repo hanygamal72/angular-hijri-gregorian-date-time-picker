@@ -162,12 +162,12 @@ export class DateUtilitiesService {
       const formattedDate = this.formatDate(gregorianDate);
 
       // Extract year and month for direct lookup (remove leading zeros from month)
-      const [, month, year] = formattedDate.split('/');
-      const monthKey = String(Number(month)); // Remove leading zero: "04" -> "4"
+      const [, monthStr, yearStr] = formattedDate.split('/');
+      const monthKey = String(Number(monthStr)); // Remove leading zero: "04" -> "4"
 
       // Try direct lookup first (much faster)
-      if (this.calendarData[year] && this.calendarData[year][monthKey]) {
-        const monthData = this.calendarData[year][monthKey];
+      if (this.calendarData[yearStr] && this.calendarData[yearStr][monthKey]) {
+        const monthData = this.calendarData[yearStr][monthKey];
 
         if (
           this.isDateInMonthRange(
