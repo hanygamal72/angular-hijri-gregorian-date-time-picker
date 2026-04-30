@@ -516,13 +516,13 @@ export class HijriGregorianDatetimeInputComponent
       // Use the dateFormat property to format the display
       result = this.dateUtilitiesService.formatDateString(
         dayInfo.gD,
-        this.dateFormat
+        this.dateFormat,
       );
     } else {
       // For Hijri dates, also apply the format
       result = this.dateUtilitiesService.formatDateString(
         dayInfo.uD,
-        this.dateFormat
+        this.dateFormat,
       );
     }
 
@@ -533,7 +533,7 @@ export class HijriGregorianDatetimeInputComponent
 
       if (this.useMeridian) {
         // 12-hour format
-        const period = hour >= 12 ? 'PM' : 'AM';
+        const period = hour >= 12 ? this.pmLabel : this.amLabel;
         const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
         result += ` ${displayHour}:${minute} ${period}`;
       } else {

@@ -31,7 +31,7 @@
     [ngStyle]="{
       'background-color': styles.backgroundColor,
       color: styles.primaryColor,
-      'border-radius': styles.borderRadius
+      'border-radius': styles.borderRadius,
     }"
   >
     <div class="text-info">
@@ -43,22 +43,14 @@
       [dir]="dir"
       [ngStyle]="{
         'background-color': styles.todaysDateBgColor,
-        color: styles.todaysDateTextColor
+        color: styles.todaysDateTextColor,
       }"
     >
       <p *ngIf="mode == 'ummAlQura'">
-        {{
-          locale == "ar"
-            ? _dateUtilsService.convertDateNumerals(formatDisplayDate(todaysDate.ummAlQura), "ar")
-            : formatDisplayDate(todaysDate.ummAlQura)
-        }}
+        {{ formatDisplayDate(todaysDate.ummAlQura) }}
       </p>
       <p *ngIf="mode == 'greg'">
-        {{
-          locale == "ar"
-            ? _dateUtilsService.convertDateNumerals(formatDisplayDate(todaysDate.gregorian), "ar")
-            : formatDisplayDate(todaysDate.gregorian)
-        }}
+        {{ formatDisplayDate(todaysDate.gregorian) }}
       </p>
     </div>
   </div>
@@ -68,11 +60,11 @@
       <div
         class="select-item"
         [ngClass]="{
-          order: dir == 'ltr'
+          order: dir == 'ltr',
         }"
         [ngStyle]="{
           'background-color': styles.backgroundColor,
-          'border-radius': styles.borderRadius
+          'border-radius': styles.borderRadius,
         }"
       >
         <label *ngIf="!periodForm.controls['year'].value">{{
@@ -87,11 +79,11 @@
           [dir]="dir"
           [ngStyle]="{
             color: styles.primaryColor,
-            'font-family': styles.fontFamily
+            'font-family': styles.fontFamily,
           }"
         >
           <option *ngFor="let year of years" [ngValue]="year">
-            {{ locale == "ar" ? _dateUtilsService.parseEnglish(year) : year }}
+            {{ year }}
           </option>
         </select>
       </div>
@@ -99,11 +91,11 @@
       <div
         class="select-item"
         [ngClass]="{
-          order: dir == 'rtl'
+          order: dir == 'rtl',
         }"
         [ngStyle]="{
           'background-color': styles.backgroundColor,
-          'border-radius': styles.borderRadius
+          'border-radius': styles.borderRadius,
         }"
       >
         <label *ngIf="!periodForm.controls['month'].value">{{
@@ -116,7 +108,7 @@
           [dir]="dir"
           [ngStyle]="{
             color: styles.primaryColor,
-            'font-family': styles.fontFamily
+            'font-family': styles.fontFamily,
           }"
         >
           <option *ngFor="let month of months" [ngValue]="month.value">
@@ -131,7 +123,7 @@
     class="calendar-layout"
     [ngStyle]="{
       'background-color': styles.backgroundColor,
-      'border-radius': styles.borderRadius
+      'border-radius': styles.borderRadius,
     }"
   >
     <div class="week-days">
@@ -152,7 +144,7 @@
           (click)="disableDayPicker == false ? onDayClicked(day) : ''"
           [ngStyle]="{
             'background-color': styles.backgroundColor,
-            color: styles.dayColor
+            color: styles.dayColor,
           }"
         >
           <div
@@ -165,7 +157,7 @@
                 (checkFutureValidation(day) && futureValidation),
               'range-start': isRangeStart(day),
               'range-end': isRangeEnd(day),
-              'in-range': isInRange(day)
+              'in-range': isInRange(day),
             }"
             [ngStyle]="{
               border:
@@ -176,8 +168,8 @@
                 day?.selected == true || isRangeStart(day) || isRangeEnd(day)
                   ? styles.primaryColor
                   : isInRange(day)
-                  ? styles.primaryColor + '33'
-                  : '',
+                    ? styles.primaryColor + '33'
+                    : '',
               color:
                 (day?.selected == true ||
                 isRangeStart(day) ||
@@ -190,23 +182,15 @@
                   : '') ||
                 (isDateDisabled(day) ? styles.disabledDayColor : ''),
               opacity: isDateDisabled(day) ? '0.4' : '1',
-              cursor: isDateDisabled(day) ? 'not-allowed' : 'pointer'
+              cursor: isDateDisabled(day) ? 'not-allowed' : 'pointer',
             }"
           >
             <span *ngIf="mode == 'greg'">{{
-              locale == "ar"
-                ? _dateUtilsService.parseEnglish(
-                    day?.gD?.split("/")[0] | number
-                  )
-                : (day?.gD?.split("/")[0] | number)
+              day?.gD?.split("/")[0] | number
             }}</span>
 
             <span id="ummAlQura-day" *ngIf="mode == 'ummAlQura'">{{
-              locale == "ar"
-                ? _dateUtilsService.parseEnglish(
-                    day?.uD?.split("/")[0] | number
-                  )
-                : (day?.uD?.split("/")[0] | number)
+              day?.uD?.split("/")[0] | number
             }}</span>
           </div>
         </div>
@@ -234,7 +218,7 @@
           [ngStyle]="{
             'background-color': styles.timePickerBgColor || '#ffffff',
             'border-color': styles.timePickerBorderColor || '#ddd',
-            color: styles.timePickerArrowColor || '#5b479c'
+            color: styles.timePickerArrowColor || '#5b479c',
           }"
           (click)="useMeridian ? incrementHour12() : incrementHour()"
           tabindex="-1"
@@ -248,7 +232,7 @@
           [ngStyle]="{
             'background-color': styles.timePickerBgColor || '#ffffff',
             'border-color': styles.timePickerBorderColor || '#ddd',
-            color: styles.timePickerTextColor || '#333'
+            color: styles.timePickerTextColor || '#333',
           }"
           [value]="getDisplayHour().toString().padStart(2, '0')"
           (input)="
@@ -267,7 +251,7 @@
           [ngStyle]="{
             'background-color': styles.timePickerBgColor || '#ffffff',
             'border-color': styles.timePickerBorderColor || '#ddd',
-            color: styles.timePickerArrowColor || '#5b479c'
+            color: styles.timePickerArrowColor || '#5b479c',
           }"
           (click)="useMeridian ? decrementHour12() : decrementHour()"
           tabindex="-1"
@@ -281,7 +265,7 @@
       <span
         class="time-colon"
         [ngStyle]="{
-          color: styles.timePickerColonColor || '#5b479c'
+          color: styles.timePickerColonColor || '#5b479c',
         }"
         >:</span
       >
@@ -294,7 +278,7 @@
           [ngStyle]="{
             'background-color': styles.timePickerBgColor || '#ffffff',
             'border-color': styles.timePickerBorderColor || '#ddd',
-            color: styles.timePickerArrowColor || '#5b479c'
+            color: styles.timePickerArrowColor || '#5b479c',
           }"
           (click)="incrementMinute()"
           tabindex="-1"
@@ -308,7 +292,7 @@
           [ngStyle]="{
             'background-color': styles.timePickerBgColor || '#ffffff',
             'border-color': styles.timePickerBorderColor || '#ddd',
-            color: styles.timePickerTextColor || '#333'
+            color: styles.timePickerTextColor || '#333',
           }"
           [value]="selectedTime.minute.toString().padStart(2, '0')"
           (input)="onMinuteInputChange($event)"
@@ -323,7 +307,7 @@
           [ngStyle]="{
             'background-color': styles.timePickerBgColor || '#ffffff',
             'border-color': styles.timePickerBorderColor || '#ddd',
-            color: styles.timePickerArrowColor || '#5b479c'
+            color: styles.timePickerArrowColor || '#5b479c',
           }"
           (click)="decrementMinute()"
           tabindex="-1"
@@ -347,12 +331,12 @@
                     styles.meridianActiveBgColor || 'rgb(0, 77, 97)',
                   'border-color':
                     styles.meridianActiveBgColor || 'rgb(0, 77, 97)',
-                  color: styles.meridianActiveTextColor || '#ffffff'
+                  color: styles.meridianActiveTextColor || '#ffffff',
                 }
               : {
                   'background-color': styles.meridianBgColor || '#ffffff',
                   'border-color': styles.timePickerBorderColor || '#ddd',
-                  color: styles.meridianTextColor || '#666'
+                  color: styles.meridianTextColor || '#666',
                 }
           "
           (click)="meridian !== 'AM' && toggleMeridian()"
@@ -371,12 +355,12 @@
                     styles.meridianActiveBgColor || 'rgb(0, 77, 97)',
                   'border-color':
                     styles.meridianActiveBgColor || 'rgb(0, 77, 97)',
-                  color: styles.meridianActiveTextColor || '#ffffff'
+                  color: styles.meridianActiveTextColor || '#ffffff',
                 }
               : {
                   'background-color': styles.meridianBgColor || '#ffffff',
                   'border-color': styles.timePickerBorderColor || '#ddd',
-                  color: styles.meridianTextColor || '#666'
+                  color: styles.meridianTextColor || '#666',
                 }
           "
           (click)="meridian !== 'PM' && toggleMeridian()"
@@ -400,10 +384,10 @@
       (click)="onConfirmClicked()"
       *ngIf="showConfirmButton"
       [ngStyle]="{
-        'background-color': styles.secondaryColor,
+        'background-color': styles.primaryColor,
         color: styles.confirmBtnTextColor,
         'font-family': styles.fontFamily,
-        'border-radius': styles.borderRadius
+        'border-radius': styles.borderRadius,
       }"
     >
       {{ submitTextButton }}

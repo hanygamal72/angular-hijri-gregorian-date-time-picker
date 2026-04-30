@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DateUtilitiesService } from 'projects/hijri-gregorian-datepicker/src/_services/date-utilities.service';
 import { DayInfo } from 'projects/hijri-gregorian-datepicker/src/_interfaces/calendar-model';
 import { stylesConfig } from 'projects/hijri-gregorian-datepicker/src/_interfaces/styles-config.model';
 
@@ -63,12 +62,10 @@ export class AppComponent {
 
   // ==================================================
   form = new FormGroup({
-    dateTimeInput: new FormControl(
-      this.dateUtilitiesService.transformDate('2025-06-15T14:30:00')
-    ),
+    dateTimeInput: new FormControl(''),
   });
 
-  constructor(private dateUtilitiesService: DateUtilitiesService) {}
+  constructor() {}
 
   onSubmit(ev: any) {
     console.log('📅 On Submit:', ev);
@@ -81,14 +78,14 @@ export class AppComponent {
         ev.start.gD,
         '(Gregorian)',
         ev.start.uD,
-        '(Hijri)'
+        '(Hijri)',
       );
       if (ev.start.time) {
         console.log(
           '  ⏰ Start Time:',
           `${ev.start.time.hour}:${ev.start.time.minute
             .toString()
-            .padStart(2, '0')}`
+            .padStart(2, '0')}`,
         );
       }
       console.log('  📍 End:', ev.end.gD, '(Gregorian)', ev.end.uD, '(Hijri)');
@@ -97,7 +94,7 @@ export class AppComponent {
           '  ⏰ End Time:',
           `${ev.end.time.hour}:${ev.end.time.minute
             .toString()
-            .padStart(2, '0')}`
+            .padStart(2, '0')}`,
         );
       }
       return;
@@ -107,7 +104,7 @@ export class AppComponent {
     if (ev.time) {
       console.log(
         '⏰ Time:',
-        `${ev.time.hour}:${ev.time.minute.toString().padStart(2, '0')}`
+        `${ev.time.hour}:${ev.time.minute.toString().padStart(2, '0')}`,
       );
     }
     if (ev.gD) {
@@ -126,13 +123,13 @@ export class AppComponent {
           '✅ Range Complete:',
           eventData.start.gD,
           '→',
-          eventData.end.gD
+          eventData.end.gD,
         );
       } else {
         console.log(
           '⏳ Range Started:',
           eventData.start.gD,
-          '(select end date)'
+          '(select end date)',
         );
       }
     }
@@ -174,7 +171,7 @@ export class AppComponent {
       if (event.time) {
         console.log(
           '⏰ Time:',
-          `${event.time.hour}:${event.time.minute.toString().padStart(2, '0')}`
+          `${event.time.hour}:${event.time.minute.toString().padStart(2, '0')}`,
         );
       }
     }
